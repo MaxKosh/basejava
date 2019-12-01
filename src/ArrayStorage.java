@@ -15,10 +15,8 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        if (!r.uuid.equals("null")) {
             storage[realLength] = r;
             realLength++;
-        }
     }
 
     Resume get(String uuid) {
@@ -34,12 +32,11 @@ public class ArrayStorage {
         int i;
         for (i = 0; i < realLength; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                storage[i] = null;
-                realLength -= 1;
+                realLength--;
                 break;
             }
         }
-        while (i < realLength) {
+        while (i <= realLength) {
             storage[i] = storage[i + 1];
             i++;
         }
