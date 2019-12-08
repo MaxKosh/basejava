@@ -24,7 +24,6 @@ public class Resume implements Comparable<Resume> {
         Resume resume = (Resume) o;
 
         return uuid.equals(resume.uuid);
-
     }
 
     @Override
