@@ -29,6 +29,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Error: resume with UUIN: " + resume.getUuid() + " already exists in the storage.");
         } else {
             insertResume(resume, index);
+            size++;
         }
     }
 
@@ -55,6 +56,7 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(uuid);
         if (index >= 0) {
             deleteByIndex(index);
+            size--;
         } else {
             System.out.println("Error: resume with UUIN: " + uuid + " does not exist in the storage.");
         }
