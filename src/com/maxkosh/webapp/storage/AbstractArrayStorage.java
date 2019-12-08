@@ -5,7 +5,7 @@ import com.maxkosh.webapp.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
-    protected static final int STORAGE_LIMIT = 10_000;
+    protected static final int STORAGE_LIMIT = 5;
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
@@ -56,6 +56,7 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(uuid);
         if (index >= 0) {
             deleteByIndex(index);
+            storage[size - 1] = null;
             size--;
         } else {
             System.out.println("Error: resume with UUIN: " + uuid + " does not exist in the storage.");
