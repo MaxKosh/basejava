@@ -11,16 +11,19 @@ public class MainReflection {
         Resume resume = new Resume();
 
         Field field = resume.getClass().getDeclaredFields()[0];
-        Method method = resume.getClass().getDeclaredMethods()[1];
-
-        System.out.println(method.getName());
-        System.out.println(method.invoke(resume));
-
         System.out.println(field.getName());
 
+        System.out.println("Initial resume UUID: " + resume);
         field.setAccessible(true);
         field.set(resume, "new_uuid");
-        System.out.println(resume);
+        System.out.println("Assigned resume UUID: " + resume);
         field.setAccessible(false);
+
+        Method[] methods = resume.getClass().getMethods();
+        for (Method method : methods) {
+            if (method.getName().equals("toString")) {
+                System.out.println("resume.toString via reflection: " + method.invoke(resume));
+            }
+        }
     }
 }
