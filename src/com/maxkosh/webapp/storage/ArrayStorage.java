@@ -8,36 +8,36 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+    Resume[] storage = new Resume[10_000];
     private short realLength = 0;
 
     public void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, realLength, null);
         realLength = 0;
     }
 
-    public void save(Resume r) {
-        if (realLength != storage.length && resumeExist(r.getUuid()) == -1) {
-            storage[realLength] = r;
-            realLength++;
-        } else if (realLength == storage.length) {
+    public void save(Resume resume) {
+        if (realLength == storage.length) {
             System.out.println("Error: no space left in the storage.");
+        } else if (getIndex(resume.getUuid()) != -1) {
+            System.out.println("Error: resume with UUIN: " + resume.getUuid() + " is already exist in the storage.");
         } else {
-            System.out.println("Error: resume with UUIN: " + r.getUuid() + " is already exist in the storage.");
+            storage[realLength] = resume;
+            realLength++;
         }
     }
 
-    public void update(Resume r) {
-        int index = resumeExist(r.getUuid());
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
         if (index != -1) {
-            storage[index] = r;
+            storage[index] = resume;
         } else {
-            System.out.println("Error: resume with UUIN: " + r.getUuid() + " is not exist in the storage.");
+            System.out.println("Error: resume with UUIN: " + resume.getUuid() + " is not exist in the storage.");
         }
     }
 
     public Resume get(String uuid) {
-        int index = resumeExist(uuid);
+        int index = getIndex(uuid);
         if (index != -1) {
             return storage[index];
         } else {
@@ -47,7 +47,7 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        int index = resumeExist(uuid);
+        int index = getIndex(uuid);
         if (index != -1) {
             storage[index] = storage[realLength - 1];
             storage[realLength - 1] = null;
@@ -65,7 +65,7 @@ public class ArrayStorage {
         return realLength;
     }
 
-    private int resumeExist(String uuid) {
+    private int getIndex(String uuid) {
         for (int i = 0; i < realLength; i++) {
             if (uuid.equals(storage[i].getUuid())) {
                 return i;
