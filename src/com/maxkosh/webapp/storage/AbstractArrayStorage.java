@@ -22,8 +22,8 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume resume) {
         if (size == STORAGE_LIMIT) {
             System.out.println("Error: no space left in the storage.");
-        } else if (getIndex(resume.getUuid()) != -1) {
-            System.out.println("Error: resume with UUIN: " + resume.getUuid() + " already exists in the storage.");
+        } else if (getIndex(resume.getUuid()) >= 0) {
+            System.out.println("Error: resume with UUIN: " + resume.getUuid() + " already exists in the storage." + " " + getIndex(resume.getUuid()));
         } else {
             insertResume(resume);
         }
@@ -31,7 +31,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
-        if (index != -1) {
+        if (index >= 0) {
             storage[index] = resume;
         } else {
             System.out.println("Error: resume with UUIN: " + resume.getUuid() + " does not exist in the storage.");
@@ -40,7 +40,8 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index != -1) {
+        if (index >= 0) {
+            System.out.println("Storage index of resume is: " + index);
             return storage[index];
         } else {
             System.out.println("Error: resume with UUIN: " + uuid + " does not exist in the storage.");
@@ -50,7 +51,8 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
-        if (index != -1) {
+        System.out.println("Index of deleting element: " + index);
+        if (index >= 0) {
             deleteByIndex(index);
         } else {
             System.out.println("Error: resume with UUIN: " + uuid + " does not exist in the storage.");

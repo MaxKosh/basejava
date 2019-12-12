@@ -14,13 +14,18 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     protected int getIndex(String uuid) {
         Resume searchKey = new Resume();
         searchKey.setUuid(uuid);
+        System.out.println("input number: " + searchKey.getUuid());
         return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 
     @Override
     protected void insertResume(Resume resume) {
-
-
+        int i;
+        for (i = size - 1; (i >= 0 && resume.compareTo(storage[i]) < 0); i--) {
+            storage[i + 1] = storage[i];
+        }
+        storage[i + 1] = resume;
+        size++;
     }
 
     @Override
