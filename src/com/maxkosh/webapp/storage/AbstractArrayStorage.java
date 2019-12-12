@@ -11,7 +11,9 @@ public abstract class AbstractArrayStorage implements Storage {
     protected int size = 0;
 
     protected abstract int getIndex(String uuid);
+
     protected abstract void insertResume(Resume resume);
+
     protected abstract void deleteByIndex(int index);
 
     public void clear() {
