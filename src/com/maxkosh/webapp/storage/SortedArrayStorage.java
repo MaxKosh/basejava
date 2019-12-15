@@ -17,18 +17,19 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void insertResume(Resume resume) {
-        int i;
-        for (i = size - 1; (i >= 0 && resume.compareTo(storage[i]) < 0); i--) {
-            storage[i + 1] = storage[i];
-        }
-        storage[i + 1] = resume;
+    protected void insertResume(Resume resume, int index) {
+        int insertIndex = (index + 1) * (-1);
         size++;
+
+        for (int i = size - 1; i > insertIndex; i--) {
+            storage[i] = storage[i - 1];
+        }
+        storage[insertIndex] = resume;
     }
 
     @Override
     protected void deleteByIndex(int index) {
-        while (index != size) {
+        while (index < size - 1) {
             storage[index] = storage[index + 1];
             storage[index + 1] = null;
             index++;

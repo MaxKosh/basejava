@@ -12,7 +12,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract int getIndex(String uuid);
 
-    protected abstract void insertResume(Resume resume);
+    protected abstract void insertResume(Resume resume, int index);
 
     protected abstract void deleteByIndex(int index);
 
@@ -22,12 +22,13 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void save(Resume resume) {
+        int index = getIndex(resume.getUuid());
         if (size == STORAGE_LIMIT) {
             System.out.println("Error: no space left in the storage.");
-        } else if (getIndex(resume.getUuid()) >= 0) {
+        } else if (index >= 0) {
             System.out.println("Error: resume with UUIN: " + resume.getUuid() + " already exists in the storage.");
         } else {
-            insertResume(resume);
+            insertResume(resume, index);
         }
     }
 
