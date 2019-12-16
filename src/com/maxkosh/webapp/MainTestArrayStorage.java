@@ -1,3 +1,5 @@
+package com.maxkosh.webapp;
+
 import com.maxkosh.webapp.model.Resume;
 import com.maxkosh.webapp.storage.*;
 
