@@ -1,5 +1,8 @@
 package com.maxkosh.webapp.storage;
 
+import com.maxkosh.webapp.exception.ExistStorageException;
+import com.maxkosh.webapp.exception.NotExistStorageException;
+import com.maxkosh.webapp.exception.StorageException;
 import com.maxkosh.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -24,9 +27,9 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (size == STORAGE_LIMIT) {
-            System.out.println("Error: no space left in the storage.");
+            throw new StorageException("Error: no space left in the storage.", resume.getUuid());
         } else if (index >= 0) {
-            System.out.println("Error: resume with UUIN: " + resume.getUuid() + " already exists in the storage.");
+            throw new ExistStorageException(resume.getUuid());
         } else {
             insertResume(resume, index);
             size++;
@@ -38,7 +41,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             storage[index] = resume;
         } else {
-            System.out.println("Error: resume with UUIN: " + resume.getUuid() + " does not exist in the storage.");
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 
@@ -47,8 +50,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             return storage[index];
         } else {
-            System.out.println("Error: resume with UUIN: " + uuid + " does not exist in the storage.");
-            return null;
+            throw new NotExistStorageException(uuid);
         }
     }
 
@@ -59,7 +61,7 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[size - 1] = null;
             size--;
         } else {
-            System.out.println("Error: resume with UUIN: " + uuid + " does not exist in the storage.");
+            throw new NotExistStorageException(uuid);
         }
     }
 
