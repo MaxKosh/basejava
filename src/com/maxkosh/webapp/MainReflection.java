@@ -17,9 +17,10 @@ public class MainReflection {
         System.out.println(method.invoke(resume));
 
         System.out.println(field.getName());
+
         field.setAccessible(true);
-        System.out.println(resume);
         field.set(resume, "new_uuid");
         System.out.println(resume);
+        field.setAccessible(false);
     }
 }
