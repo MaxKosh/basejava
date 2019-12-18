@@ -69,7 +69,7 @@ public abstract class AbstractArrayStorageTest {
         Resume[] testedStorage = storage.getAll();
         Resume[] copyOfStorage = new Resume[storage.size()];
 
-        for(int i = 0; i < storage.size(); i++) {
+        for (int i = 0; i < storage.size(); i++) {
             copyOfStorage[i] = storage.get("uuid_" + (i + 1));
         }
 
