@@ -11,7 +11,6 @@ import java.util.List;
 
 public class ListStorage extends AbstractStorage {
     private List<Resume> storage = new ArrayList<Resume>();
-    public int size = storage.size();
 
     @Override
     public void clear() {
@@ -59,7 +58,8 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return (Resume[]) storage.toArray();
+        Resume[] listToArray = new Resume[storage.size()];
+        return storage.toArray(listToArray);
     }
 
     @Override
