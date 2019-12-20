@@ -51,7 +51,7 @@ public class ListStorage extends AbstractStorage {
     public void delete(String uuid) {
         Resume resume = new Resume(uuid);
         boolean removed = storage.remove(resume);
-        if(!removed) {
+        if (!removed) {
             throw new NotExistStorageException(resume.getUuid());
         }
     }
