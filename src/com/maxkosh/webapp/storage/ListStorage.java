@@ -52,7 +52,10 @@ public class ListStorage extends AbstractStorage {
         storage.add(resume);
     }
 
-    protected boolean checkOverflow() {
+    protected boolean isExist(Integer index) {
+        if(index != null) {
+            return true;
+        }
         return false;
     }
 }

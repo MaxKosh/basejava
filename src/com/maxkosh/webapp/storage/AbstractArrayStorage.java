@@ -1,5 +1,6 @@
 package com.maxkosh.webapp.storage;
 
+import com.maxkosh.webapp.exception.StorageException;
 import com.maxkosh.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -10,9 +11,15 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    protected abstract Integer getIndex(String uuid);
-
     protected abstract void insertResume(Resume resume, Integer index);
+
+    @Override
+    public void save(Resume resume) {
+        if (size == STORAGE_LIMIT) {
+            throw new StorageException("Storage overflow.", resume.getUuid());
+        }
+        super.save(resume);
+    }
 
     @Override
     public void clear() {
@@ -38,8 +45,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         storage[index] = resume;
     }
 
-    protected boolean checkOverflow() {
-        if (size == STORAGE_LIMIT) {
+    protected boolean isExist(Integer index) {
+        if (index >= 0) {
             return true;
         }
         return false;
