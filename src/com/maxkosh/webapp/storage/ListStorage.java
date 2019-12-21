@@ -26,7 +26,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getIndex(String uuid) {
+    protected Integer getIndex(String uuid) {
         int index = 0;
         for (Resume resume : storage) {
             if (Objects.equals(resume.getUuid(), uuid)) {
@@ -39,12 +39,12 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Resume getByIndex(Object index) {
-        return storage.get((int) index);
+        return storage.get((Integer) index);
     }
 
     @Override
     protected void updateByIndex(Object index, Resume resume) {
-        storage.set((int) index, resume);
+        storage.set((Integer) index, resume);
     }
 
     @Override
@@ -59,9 +59,6 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object index) {
-        if (index != null) {
-            return true;
-        }
-        return false;
+        return index != null;
     }
 }
