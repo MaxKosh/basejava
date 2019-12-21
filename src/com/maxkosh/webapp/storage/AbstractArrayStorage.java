@@ -4,6 +4,7 @@ import com.maxkosh.webapp.exception.StorageException;
 import com.maxkosh.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
@@ -26,13 +27,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+    public int size() {
+        return size;
     }
 
     @Override
-    public int size() {
-        return size;
+    protected List<Resume> getList() {
+        return Arrays.asList(Arrays.copyOf(storage, size));
     }
 
     @Override

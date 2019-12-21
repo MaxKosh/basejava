@@ -2,9 +2,7 @@ package com.maxkosh.webapp.storage;
 
 import com.maxkosh.webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ListStorage extends AbstractStorage {
     private List<Resume> storage = new ArrayList<>();
@@ -15,9 +13,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        Resume[] listToArray = new Resume[storage.size()];
-        return storage.toArray(listToArray);
+    protected List<Resume> getList() {
+        return storage;
     }
 
     @Override
@@ -27,12 +24,10 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Integer getSearchKey(String uuid) {
-        int index = 0;
-        for (Resume resume : storage) {
-            if (Objects.equals(resume.getUuid(), uuid)) {
-                return index;
+        for (int i = 0; i < storage.size(); i++) {
+            if (Objects.equals(storage.get(i).getUuid(), uuid)) {
+                return i;
             }
-            index++;
         }
         return null;
     }

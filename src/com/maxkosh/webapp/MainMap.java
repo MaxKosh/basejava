@@ -7,12 +7,12 @@ public class MainMap {
     public static void main(String[] args) {
         MapStorage testMapStorage = new MapStorage();
 
-        Resume resume_1 = new Resume("uuid_1");
-        Resume resume_2 = new Resume("uuid_2");
-        Resume resume_3 = new Resume("uuid_3");
-        Resume resume_4 = new Resume("uuid_4");
-        Resume resume_5 = new Resume("uuid_5");
-        Resume resume_6 = new Resume("uuid_6");
+        Resume resume_1 = new Resume("uuid_5", "Max Koshelev");
+        Resume resume_2 = new Resume("uuid_3", "Lena Zotova");
+        Resume resume_3 = new Resume("uuid_4", "Nikolas Frolkov");
+        Resume resume_4 = new Resume("uuid_1", "Alex Terekhov");
+        Resume resume_5 = new Resume("uuid_6", "Nikolas Frolkov");
+        Resume resume_6 = new Resume("uuid_2", "Dima Morozov");
 
         System.out.println("SAVE + SIZE + GETALL funcs ----------------- ");
         //System.out.println("GET: " + testMapStorage.get(resume_3.getUuid())); //NotExistException
@@ -25,7 +25,7 @@ public class MainMap {
 
         System.out.println("Size: " + testMapStorage.size());
 
-        for (Resume r : testMapStorage.getAll()) {
+        for (Resume r : testMapStorage.getAllSorted()) {
             System.out.println("Get resume: " + r);
         }
 
@@ -39,10 +39,10 @@ public class MainMap {
 
         System.out.println("DELETE func --------------------------");
         //testListStorage.delete(resume_6.getUuid()); //NotExistException
-        testMapStorage.delete(resume_1.getUuid());
+        testMapStorage.delete(resume_3.getUuid());
         System.out.println("Size: " + testMapStorage.size());
 
-        for (Resume r : testMapStorage.getAll()) {
+        for (Resume r : testMapStorage.getAllSorted()) {
             System.out.println("Get resume: " + r);
         }
 

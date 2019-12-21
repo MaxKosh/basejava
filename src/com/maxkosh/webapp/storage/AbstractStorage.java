@@ -4,6 +4,8 @@ import com.maxkosh.webapp.exception.ExistStorageException;
 import com.maxkosh.webapp.exception.NotExistStorageException;
 import com.maxkosh.webapp.model.Resume;
 
+import java.util.List;
+
 public abstract class AbstractStorage implements Storage {
 
     protected abstract Object getSearchKey(String uuid);
@@ -17,6 +19,8 @@ public abstract class AbstractStorage implements Storage {
     protected abstract void doSave(Resume resume, Object searchKey);
 
     protected abstract boolean isExist(Object searchKey);
+
+    protected abstract List<Resume> getList();
 
     @Override
     public void save(Resume resume) {
@@ -40,6 +44,13 @@ public abstract class AbstractStorage implements Storage {
     public void delete(String uuid) {
         Object searchKey = getExistedSearchKey(uuid);
         doDelete(searchKey);
+    }
+
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> sortedList = getList();
+        sortedList.sort(Resume.RESUME_COMPARATOR);
+        return sortedList;
     }
 
     private Object getExistedSearchKey(String uuid) {

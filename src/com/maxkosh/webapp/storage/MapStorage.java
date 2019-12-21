@@ -2,8 +2,7 @@ package com.maxkosh.webapp.storage;
 
 import com.maxkosh.webapp.model.Resume;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MapStorage extends AbstractStorage {
     private Map<String, Resume> storage = new HashMap<>();
@@ -14,9 +13,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        Resume[] mapToArray = new Resume[storage.size()];
-        return storage.values().toArray(mapToArray);
+    protected List<Resume> getList() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override
