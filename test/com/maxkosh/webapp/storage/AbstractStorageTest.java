@@ -5,6 +5,8 @@ import com.maxkosh.webapp.exception.NotExistStorageException;
 import com.maxkosh.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 import java.util.ArrayList;
 import java.util.List;
