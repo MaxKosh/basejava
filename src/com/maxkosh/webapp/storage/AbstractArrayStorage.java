@@ -11,7 +11,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    protected abstract void insertResume(Resume resume, Integer index);
+    //protected abstract void insertResume(Resume resume, Integer index);
 
     @Override
     public void save(Resume resume) {
@@ -37,16 +37,19 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    protected Resume getByIndex(int index) {
-        return storage[index];
+    @Override
+    protected Resume getByIndex(Object index) {
+        return storage[(int)index];
     }
 
-    protected void updateByIndex(int index, Resume resume) {
-        storage[index] = resume;
+    @Override
+    protected void updateByIndex(Object index, Resume resume) {
+        storage[(int)index] = resume;
     }
 
-    protected boolean isExist(Integer index) {
-        if (index >= 0) {
+    @Override
+    protected boolean isExist(Object index) {
+        if ((int)index >= 0) {
             return true;
         }
         return false;
