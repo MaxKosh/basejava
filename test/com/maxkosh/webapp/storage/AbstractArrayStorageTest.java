@@ -1,10 +1,7 @@
 package com.maxkosh.webapp.storage;
 
-import com.maxkosh.webapp.exception.ExistStorageException;
-import com.maxkosh.webapp.exception.NotExistStorageException;
 import com.maxkosh.webapp.exception.StorageException;
 import com.maxkosh.webapp.model.Resume;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
