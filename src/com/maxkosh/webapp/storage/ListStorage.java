@@ -1,13 +1,11 @@
 package com.maxkosh.webapp.storage;
 
 import com.maxkosh.webapp.exception.ExistStorageException;
-import com.maxkosh.webapp.exception.NotExistStorageException;
 import com.maxkosh.webapp.model.Resume;
-import javafx.print.Collation;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class ListStorage extends AbstractStorage {
     private List<Resume> storage = new ArrayList<Resume>();
@@ -27,36 +25,6 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void update(Resume resume) {
-        int index = storage.indexOf(resume);
-        if (index == -1) {
-            throw new NotExistStorageException(resume.getUuid());
-        } else {
-            storage.set(index, resume);
-        }
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        Resume resume = new Resume(uuid);
-        int index = storage.indexOf(resume);
-        if (index == -1) {
-            throw new NotExistStorageException(resume.getUuid());
-        } else {
-            return storage.get(index);
-        }
-    }
-
-    @Override
-    public void delete(String uuid) {
-        Resume resume = new Resume(uuid);
-        boolean removed = storage.remove(resume);
-        if (!removed) {
-            throw new NotExistStorageException(resume.getUuid());
-        }
-    }
-
-    @Override
     public Resume[] getAll() {
         Resume[] listToArray = new Resume[storage.size()];
         return storage.toArray(listToArray);
@@ -65,5 +33,28 @@ public class ListStorage extends AbstractStorage {
     @Override
     public int size() {
         return storage.size();
+    }
+
+    protected int getIndex(String uuid) {
+        int index = 0;
+        for (Resume resume : storage) {
+            if (Objects.equals(resume.getUuid(), uuid)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
+    protected Resume getByIndex(int index) {
+        return storage.get(index);
+    }
+
+    protected void updateByIndex(int index, Resume resume) {
+        storage.set(index, resume);
+    }
+
+    protected void deleteByIndex(int index) {
+        storage.remove(index);
     }
 }

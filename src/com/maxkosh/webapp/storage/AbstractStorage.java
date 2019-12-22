@@ -1,40 +1,46 @@
 package com.maxkosh.webapp.storage;
 
+import com.maxkosh.webapp.exception.NotExistStorageException;
 import com.maxkosh.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
-    @Override
-    public void clear() {
 
-    }
+    protected abstract Resume getByIndex(int index);
 
-    @Override
-    public void save(Resume resume) {
+    protected abstract void updateByIndex(int index, Resume resume);
 
-    }
+    protected abstract int getIndex(String uuid);
+
+    protected abstract void deleteByIndex(int index);
 
     @Override
     public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
+        if (index >= 0) {
+            updateByIndex(index, resume);
+        } else {
+            throw new NotExistStorageException(resume.getUuid());
+        }
 
     }
 
     @Override
     public Resume get(String uuid) {
-        return null;
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            return getByIndex(index);
+        } else {
+            throw new NotExistStorageException(uuid);
+        }
     }
 
     @Override
     public void delete(String uuid) {
-
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return new Resume[0];
-    }
-
-    @Override
-    public int size() {
-        return 0;
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            deleteByIndex(index);
+        } else {
+            throw new NotExistStorageException(uuid);
+        }
     }
 }
