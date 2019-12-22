@@ -15,6 +15,7 @@ public class MainCollection {
         Resume resume_6 = new Resume("uuid_6");
 
         System.out.println("SAVE + SIZE + GETALL funcs ----------------- ");
+        //System.out.println("GET: " + testListStorage.get(resume_3.getUuid()));
         testListStorage.save(resume_1);
         testListStorage.save(resume_2);
         testListStorage.save(resume_3);

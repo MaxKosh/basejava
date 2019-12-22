@@ -1,7 +1,5 @@
 package com.maxkosh.webapp.storage;
 
-import com.maxkosh.webapp.exception.ExistStorageException;
-import com.maxkosh.webapp.exception.StorageException;
 import com.maxkosh.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -12,29 +10,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    protected abstract int getIndex(String uuid);
+    protected abstract Integer getIndex(String uuid);
 
-    protected abstract void insertResume(Resume resume, int index);
-
-    protected abstract void deleteByIndex(int index);
+    protected abstract void insertResume(Resume resume, Integer index);
 
     @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
-    }
-
-    @Override
-    public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (size == STORAGE_LIMIT) {
-            throw new StorageException("Error: no space left in the storage.", resume.getUuid());
-        } else if (index >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            insertResume(resume, index);
-            size++;
-        }
     }
 
     @Override
@@ -53,5 +36,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected void updateByIndex(int index, Resume resume) {
         storage[index] = resume;
+    }
+
+    protected boolean checkOverflow() {
+        if (size == STORAGE_LIMIT) {
+            return true;
+        }
+        return false;
     }
 }
