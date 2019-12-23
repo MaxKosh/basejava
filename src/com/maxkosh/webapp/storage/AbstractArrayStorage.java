@@ -11,8 +11,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    //protected abstract void insertResume(Resume resume, Integer index);
-
     @Override
     public void save(Resume resume) {
         if (size == STORAGE_LIMIT) {
