@@ -15,7 +15,7 @@ public class MainMap {
         Resume resume_6 = new Resume("uuid_6");
 
         System.out.println("SAVE + SIZE + GETALL funcs ----------------- ");
-        System.out.println("GET: " + testMapStorage.get(resume_3.getUuid())); //NotExistException
+        //System.out.println("GET: " + testMapStorage.get(resume_3.getUuid())); //NotExistException
         testMapStorage.save(resume_2);
         testMapStorage.save(resume_1);
         testMapStorage.save(resume_3);
@@ -31,6 +31,23 @@ public class MainMap {
 
         System.out.println("GET func ----------------- ");
         System.out.println("GET: " + testMapStorage.get(resume_5.getUuid()));
-        //System.out.println("GET: " + testListStorage.get(resume_6.getUuid()));  //NotExistException
+        //System.out.println("GET: " + testMapStorage.get(resume_6.getUuid()));  //NotExistException
+
+        System.out.println("UPDATE func --------------------------");
+        //testMapStorage.update(resume_6); //NotExistException
+        testMapStorage.update(resume_1);
+
+        System.out.println("DELETE func --------------------------");
+        //testListStorage.delete(resume_6.getUuid()); //NotExistException
+        testMapStorage.delete(resume_1.getUuid());
+        System.out.println("Size: " + testMapStorage.size());
+
+        for (Resume r : testMapStorage.getAll()) {
+            System.out.println("Get resume: " + r);
+        }
+
+        System.out.println("CLEAR func --------------------------");
+        testMapStorage.clear();
+        System.out.println("Size: " + testMapStorage.size());
     }
 }

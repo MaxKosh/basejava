@@ -39,17 +39,17 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Resume getByIndex(Object index) {
-        return storage.get((int)index);
+        return storage.get((int) index);
     }
 
     @Override
     protected void updateByIndex(Object index, Resume resume) {
-        storage.set((int)index, resume);
+        storage.set((int) index, resume);
     }
 
     @Override
     protected void deleteByIndex(Object index) {
-        storage.remove((int)index);
+        storage.remove((int) index);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object index) {
-        if(index != null) {
+        if (index != null) {
             return true;
         }
         return false;
