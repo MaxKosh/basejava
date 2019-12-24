@@ -8,7 +8,7 @@ import com.maxkosh.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected Integer getIndex(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
                 return i;
@@ -18,14 +18,14 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void insertResume(Resume resume, Object index) {
+    protected void doSave(Resume resume, Object index) {
         storage[size] = resume;
         size++;
     }
 
     @Override
-    protected void deleteByIndex(Object index) {
-        storage[(int) index] = storage[size - 1];
+    protected void doDelete(Object index) {
+        storage[(Integer) index] = storage[size - 1];
         storage[size - 1] = null;
         size--;
     }

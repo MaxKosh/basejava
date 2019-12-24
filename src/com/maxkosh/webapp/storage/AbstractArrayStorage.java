@@ -36,17 +36,17 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getByIndex(Object index) {
-        return storage[(int) index];
+    protected Resume doGet(Object index) {
+        return storage[(Integer) index];
     }
 
     @Override
-    protected void updateByIndex(Object index, Resume resume) {
-        storage[(int) index] = resume;
+    protected void doUpdate(Resume resume, Object index) {
+        storage[(Integer) index] = resume;
     }
 
     @Override
     protected boolean isExist(Object index) {
-        return (int) index >= 0;
+        return (Integer) index >= 0;
     }
 }

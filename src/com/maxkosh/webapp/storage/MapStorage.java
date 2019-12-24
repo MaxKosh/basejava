@@ -25,32 +25,32 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected String getIndex(String uuid) {
+    protected String getSearchKey(String uuid) {
         return uuid;
     }
 
     @Override
-    protected Resume getByIndex(Object index) {
-        return storage.get((String) index);
+    protected Resume doGet(Object searchKey) {
+        return storage.get((String) searchKey);
     }
 
     @Override
-    protected void updateByIndex(Object index, Resume resume) {
-        storage.replace((String) index, resume);
+    protected void doUpdate(Resume resume, Object searchKey) {
+        storage.replace((String) searchKey, resume);
     }
 
     @Override
-    protected void deleteByIndex(Object index) {
-        storage.remove((String)index);
+    protected void doDelete(Object searchKey) {
+        storage.remove((String) searchKey);
     }
 
     @Override
-    protected void insertResume(Resume resume, Object index) {
+    protected void doSave(Resume resume, Object searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return storage.containsKey((String) index);
+    protected boolean isExist(Object searchKey) {
+        return storage.containsKey((String) searchKey);
     }
 }
