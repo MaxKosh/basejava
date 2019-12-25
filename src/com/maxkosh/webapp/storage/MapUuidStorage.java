@@ -4,7 +4,7 @@ import com.maxkosh.webapp.model.Resume;
 
 import java.util.*;
 
-public class MapStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage {
     private Map<String, Resume> storage = new HashMap<>();
 
     @Override
@@ -23,28 +23,23 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
-        if (storage.containsKey(uuid)) {
-            return storage.get(uuid);
-        }
-        return null;
+    protected String getSearchKey(String uuid) {
+        return uuid;
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return (Resume) searchKey;
+        return storage.get((String) searchKey);
     }
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
-        Resume updatedResume = (Resume) searchKey;
-        storage.replace(updatedResume.getUuid(), resume);
+        storage.replace((String) searchKey, resume);
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        Resume removedResume = (Resume) searchKey;
-        storage.remove(removedResume.getUuid());
+        storage.remove((String) searchKey);
     }
 
     @Override
@@ -54,7 +49,6 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return storage.containsValue((Resume) searchKey);
+        return storage.containsKey((String) searchKey);
     }
 }
-

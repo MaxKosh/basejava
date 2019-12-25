@@ -2,10 +2,11 @@ package com.maxkosh.webapp;
 
 import com.maxkosh.webapp.model.Resume;
 import com.maxkosh.webapp.storage.MapStorage;
+//import com.maxkosh.webapp.storage.MapUuidStorage;
 
 public class MainMap {
     public static void main(String[] args) {
-        MapStorage testMapStorage = new MapStorage();
+        MapStorage testMapUuidStorage = new MapStorage();
 
         Resume resume_1 = new Resume("uuid_5", "Max Koshelev");
         Resume resume_2 = new Resume("uuid_3", "Lena Zotova");
@@ -15,39 +16,39 @@ public class MainMap {
         Resume resume_6 = new Resume("uuid_2", "Dima Morozov");
 
         System.out.println("SAVE + SIZE + GETALL funcs ----------------- ");
-        //System.out.println("GET: " + testMapStorage.get(resume_3.getUuid())); //NotExistException
-        testMapStorage.save(resume_2);
-        testMapStorage.save(resume_1);
-        testMapStorage.save(resume_3);
-        testMapStorage.save(resume_4);
-        testMapStorage.save(resume_5);
-        //testMapStorage.save(resume_1); //ExistException
+        //System.out.println("GET: " + testMapUuidStorage.get(resume_3.getUuid())); //NotExistException
+        testMapUuidStorage.save(resume_2);
+        testMapUuidStorage.save(resume_1);
+        testMapUuidStorage.save(resume_3);
+        testMapUuidStorage.save(resume_4);
+        testMapUuidStorage.save(resume_5);
+        //testMapUuidStorage.save(resume_1); //ExistException
 
-        System.out.println("Size: " + testMapStorage.size());
+        System.out.println("Size: " + testMapUuidStorage.size());
 
-        for (Resume r : testMapStorage.getAllSorted()) {
+        for (Resume r : testMapUuidStorage.getAllSorted()) {
             System.out.println("Get resume: " + r);
         }
 
         System.out.println("GET func ----------------- ");
-        System.out.println("GET: " + testMapStorage.get(resume_5.getUuid()));
-        //System.out.println("GET: " + testMapStorage.get(resume_6.getUuid()));  //NotExistException
+        System.out.println("GET: " + testMapUuidStorage.get(resume_5.getUuid()));
+        //System.out.println("GET: " + testMapUuidStorage.get(resume_6.getUuid()));  //NotExistException
 
         System.out.println("UPDATE func --------------------------");
-        //testMapStorage.update(resume_6); //NotExistException
-        testMapStorage.update(resume_1);
+        //testMapUuidStorage.update(resume_6); //NotExistException
+        testMapUuidStorage.update(resume_1);
 
         System.out.println("DELETE func --------------------------");
         //testListStorage.delete(resume_6.getUuid()); //NotExistException
-        testMapStorage.delete(resume_3.getUuid());
-        System.out.println("Size: " + testMapStorage.size());
+        testMapUuidStorage.delete(resume_3.getUuid());
+        System.out.println("Size: " + testMapUuidStorage.size());
 
-        for (Resume r : testMapStorage.getAllSorted()) {
+        for (Resume r : testMapUuidStorage.getAllSorted()) {
             System.out.println("Get resume: " + r);
         }
 
         System.out.println("CLEAR func --------------------------");
-        testMapStorage.clear();
-        System.out.println("Size: " + testMapStorage.size());
+        testMapUuidStorage.clear();
+        System.out.println("Size: " + testMapUuidStorage.size());
     }
 }
