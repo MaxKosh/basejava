@@ -5,8 +5,6 @@ import com.maxkosh.webapp.exception.NotExistStorageException;
 import com.maxkosh.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,12 +89,10 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        storage.save(RESUME_4);
         List<Resume> storageAsList = storage.getAllSorted();
         ArrayList<Resume> testList = new ArrayList<>();
         testList.add(RESUME_3);
         testList.add(RESUME_2);
-        testList.add(RESUME_4);
         testList.add(RESUME_1);
         for (int i = 0; i < storage.size(); i++) {
             assertEquals(storageAsList.get(i), testList.get(i));

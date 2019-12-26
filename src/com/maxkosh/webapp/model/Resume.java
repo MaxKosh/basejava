@@ -1,6 +1,6 @@
 package com.maxkosh.webapp.model;
 
-import java.util.Comparator;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -9,14 +9,6 @@ import java.util.UUID;
 public class Resume {
     private final String uuid;
     private String fullName;
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public static final Comparator<Resume> RESUME_UUID_COMPARATOR = Comparator.comparing(Resume::getUuid);
-    public static final Comparator<Resume> RESUME_FULL_NAME_COMPARATOR = Comparator.comparing(Resume::getFullName);
-    public static final Comparator<Resume> RESUME_COMPARATOR = RESUME_FULL_NAME_COMPARATOR.thenComparing(RESUME_UUID_COMPARATOR);
 
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
@@ -27,6 +19,10 @@ public class Resume {
         this(UUID.randomUUID().toString(), fullName);
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
     public String getUuid() {
         return uuid;
     }
@@ -35,15 +31,14 @@ public class Resume {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Resume resume = (Resume) o;
-
-        return uuid.equals(resume.uuid);
+        return uuid.equals(resume.uuid) &&
+                fullName.equals(resume.fullName);
     }
 
     @Override
     public int hashCode() {
-        return uuid.hashCode();
+        return Objects.hash(uuid, fullName);
     }
 
     @Override

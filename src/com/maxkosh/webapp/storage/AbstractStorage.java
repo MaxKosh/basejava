@@ -4,6 +4,7 @@ import com.maxkosh.webapp.exception.ExistStorageException;
 import com.maxkosh.webapp.exception.NotExistStorageException;
 import com.maxkosh.webapp.model.Resume;
 
+import java.util.Comparator;
 import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
@@ -21,6 +22,10 @@ public abstract class AbstractStorage implements Storage {
     protected abstract boolean isExist(Object searchKey);
 
     protected abstract List<Resume> getList();
+
+    private static final Comparator<Resume> RESUME_UUID_COMPARATOR = Comparator.comparing(Resume::getUuid);
+    private static final Comparator<Resume> RESUME_COMPARATOR =
+            Comparator.comparing(Resume::getFullName).thenComparing(RESUME_UUID_COMPARATOR);
 
     @Override
     public void save(Resume resume) {
@@ -49,7 +54,7 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         List<Resume> sortedList = getList();
-        sortedList.sort(Resume.RESUME_COMPARATOR);
+        sortedList.sort(RESUME_COMPARATOR);
         return sortedList;
     }
 
