@@ -94,9 +94,7 @@ public abstract class AbstractStorageTest {
         testList.add(RESUME_3);
         testList.add(RESUME_2);
         testList.add(RESUME_1);
-        for (int i = 0; i < storage.size(); i++) {
-            assertEquals(storageAsList.get(i), testList.get(i));
-        }
+        assertEquals(storageAsList, testList);
     }
 
     @Test
