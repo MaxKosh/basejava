@@ -9,6 +9,9 @@ public class Resume {
     private final String uuid;
     private final String fullName;
 
+    public Map<SectionType, Section> sectionMap = new EnumMap<>(SectionType.class);
+    public Map<ContactType, String> contactMap = new EnumMap<>(ContactType.class);
+
     public Resume(String uuid, String fullName) {
         Objects.requireNonNull(uuid, "uuid must not be null");
         Objects.requireNonNull(fullName, "fullName must not be null");
@@ -44,49 +47,6 @@ public class Resume {
 
     @Override
     public String toString() {
-        return fullName + ", " + uuid;
-    }
-
-    public class PersonalSection {
-
-        private Map<ContactType, String> contacts = new HashMap<>();
-
-        public void setContacts(ContactType contactType, String s) {
-            contacts.put(contactType, s);
-        }
-
-        public String getContacts(ContactType contactType) {
-            return contacts.get(contactType);
-        }
-    }
-
-    public class TextSection {
-        private SectionType sectionType;
-        private String personalInfo;
-        private String objectiveInfo;
-
-        public TextSection(SectionType sectionType) {
-            this.sectionType = sectionType;
-        }
-    }
-
-    public class ListSection {
-        private SectionType sectionType;
-        private List<String> achievementList;
-        private List<String> qualificationsList;
-
-        public ListSection(SectionType sectionType) {
-            this.sectionType = sectionType;
-        }
-    }
-
-    public class DateSection {
-        private SectionType sectionType;
-        private Map<Date, String> experienceMap;
-        private Map<Date, String> educationMap;
-
-        public DateSection(SectionType sectionType) {
-            this.sectionType = sectionType;
-        }
+        return "Full name: " + fullName + ", \nUUID: " + uuid+ ", \nContacts: " + contactMap + ", \nInformation: " + sectionMap;
     }
 }
