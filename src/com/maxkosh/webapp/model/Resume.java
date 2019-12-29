@@ -8,7 +8,6 @@ import java.util.*;
 public class Resume {
     private final String uuid;
     private final String fullName;
-
     public Map<SectionType, Section> sectionMap = new EnumMap<>(SectionType.class);
     public Map<ContactType, String> contactMap = new EnumMap<>(ContactType.class);
 
@@ -47,6 +46,9 @@ public class Resume {
 
     @Override
     public String toString() {
-        return "Full name: " + fullName + ", \nUUID: " + uuid+ ", \nContacts: " + contactMap + ", \nInformation: " + sectionMap;
+        return "Full name: " + fullName +
+                "\nUUID: " + uuid +
+                "\nContacts: \n" + contactMap +
+                "\nInformation: \n" + sectionMap;
     }
 }

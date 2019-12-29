@@ -4,29 +4,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class ListSection extends Section {
-    private String text;
     private List<String> stringList;
 
     public ListSection(List<String> stringList, String text) {
-        this.text = text;
         this.stringList = stringList;
         this.stringList.add(text);
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public List<String> getStringList() {
         return stringList;
-    }
-
-    public void setStringList(List<String> stringList) {
-        this.stringList = stringList;
     }
 
     @Override
@@ -34,18 +20,16 @@ public class ListSection extends Section {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListSection that = (ListSection) o;
-        return text.equals(that.text) &&
-                stringList.equals(that.stringList);
+        return stringList.equals(that.stringList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(text, stringList);
+        return Objects.hash(stringList);
     }
 
     @Override
     public String toString() {
-        return "text = " + text + '\'' +
-                ", stringList = " + stringList;
+        return stringList.toString() + "\n";
     }
 }

@@ -1,17 +1,20 @@
 package com.maxkosh.webapp.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Company {
-    String companyName;
-    private String activePeriod;
+    private String companyName;
+    private String url;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String position;
     private String description;
 
-    public Company(String companyName, String activePeriod, String position, String description) {
+    public Company(String companyName, LocalDate startDate, LocalDate endDate, String position, String description) {
         this.companyName = companyName;
-        this.activePeriod = activePeriod;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.position = position;
         this.description = description;
     }
@@ -24,12 +27,28 @@ public class Company {
         this.companyName = companyName;
     }
 
-    public String getActivePeriod() {
-        return activePeriod;
+    public String getUrl() {
+        return url;
     }
 
-    public void setActivePeriod(String activePeriod) {
-        this.activePeriod = activePeriod;
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public String getPosition() {
@@ -54,21 +73,26 @@ public class Company {
         if (o == null || getClass() != o.getClass()) return false;
         Company company = (Company) o;
         return companyName.equals(company.companyName) &&
-                activePeriod.equals(company.activePeriod) &&
+                Objects.equals(url, company.url) &&
+                startDate.equals(company.startDate) &&
+                endDate.equals(company.endDate) &&
                 position.equals(company.position) &&
                 description.equals(company.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(companyName, activePeriod, position, description);
+        return Objects.hash(companyName, url, startDate, endDate, position, description);
     }
 
     @Override
     public String toString() {
-        return "companyName = " + companyName + '\'' +
-                ", activePeriod = " + activePeriod +
-                ", position = " + position + '\'' +
-                ", description = " + description + '\'';
+        return "COMPANY: " +
+                "\ncompanyName = " + companyName +
+                "\nwebsite = " + url +
+                "\nstartDate = " + startDate +
+                "\nendDate = " + endDate +
+                "\nposition = " + position +
+                "\ndescription = " + description + "\n";
     }
 }
