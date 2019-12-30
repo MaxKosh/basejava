@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class ListSection extends Section {
-    private List<String> stringList;
+    private final List<String> stringList;
 
-    public ListSection(List<String> stringList, String text) {
+    public ListSection(List<String> stringList) {
+        Objects.requireNonNull(stringList, "List must not be null");
         this.stringList = stringList;
-        this.stringList.add(text);
     }
 
     public List<String> getStringList() {

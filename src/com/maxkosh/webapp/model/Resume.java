@@ -8,8 +8,8 @@ import java.util.*;
 public class Resume {
     private final String uuid;
     private final String fullName;
-    public Map<SectionType, Section> sectionMap = new EnumMap<>(SectionType.class);
-    public Map<ContactType, String> contactMap = new EnumMap<>(ContactType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
     public Resume(String uuid, String fullName) {
         Objects.requireNonNull(uuid, "uuid must not be null");
@@ -30,6 +30,14 @@ public class Resume {
         return uuid;
     }
 
+    public Map<SectionType, Section> getSections() {
+        return sections;
+    }
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,7 +56,7 @@ public class Resume {
     public String toString() {
         return "Full name: " + fullName +
                 "\nUUID: " + uuid +
-                "\nContacts: \n" + contactMap +
-                "\nInformation: \n" + sectionMap;
+                "\nContacts: \n" + contacts +
+                "\nInformation: \n" + sections;
     }
 }

@@ -5,11 +5,11 @@ import java.util.Objects;
 
 
 public class CompanySection extends Section {
-    private List<Company> companyList;
+    private final List<Company> companyList;
 
-    public CompanySection(List<Company> companyList, Company company) {
+    public CompanySection(List<Company> companyList) {
+        Objects.requireNonNull(companyList, "List must not be null");
         this.companyList = companyList;
-        this.companyList.add(company);
     }
 
     public List<Company> getCompanyList() {
