@@ -1,8 +1,10 @@
 package com.maxkosh.webapp.storage;
 
 import com.maxkosh.webapp.model.*;
+import com.maxkosh.webapp.util.DateUtil;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.*;
 
 public class ResumeTestData {
@@ -42,57 +44,52 @@ public class ResumeTestData {
         qualificationList.add("\n- MySQL, SQLite, MS SQL, HSQLDB");
         ListSection qualification = new ListSection(qualificationList);
 
-        LocalDate firstJobStartDate = LocalDate.of(1997, 9, 1);
-        LocalDate firstJobEndDate = LocalDate.of(2005, 1, 1);
-
         Company firstCompany = new Company(
                 "Alcatel",
                 null,
-                firstJobStartDate,
-                firstJobEndDate,
+                DateUtil.of(1997, Month.SEPTEMBER),
+                DateUtil.of(2005, Month.JANUARY),
                 "Инженер по аппаратному и программному тестированию",
                 "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).");
-
-        LocalDate secondJobStartDate = LocalDate.of(2005, 1, 1);
-        LocalDate secondJobEndDate = LocalDate.of(2007, 2, 1);
 
         Company secondCompany = new Company(
                 "Siemens AG",
                 "www.siemens.com",
-                secondJobStartDate,
-                secondJobEndDate,
+                DateUtil.of(2005, Month.JANUARY),
+                DateUtil.of(2007, Month.FEBRUARY),
                 "Разработчик ПО",
                 "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix).");
 
-        CompanySection experience = new CompanySection(new ArrayList<Company>());
+        CompanySection experience = new CompanySection(new ArrayList<>());
         experience.getCompanyList().add(firstCompany);
         experience.getCompanyList().add(secondCompany);
-
-        LocalDate firstEduStartDate = LocalDate.of(1984, 9, 1);
-        LocalDate firstEduEndDate = LocalDate.of(1987, 1, 1);
 
         Company firstEducation = new Company(
                 "Заочная физико-техническая школа при МФТИ",
                 null,
-                firstEduStartDate,
-                firstEduEndDate,
+                DateUtil.of(1984, Month.SEPTEMBER),
+                DateUtil.of(1987, Month.JANUARY),
                 "Студент",
                 null);
 
-        LocalDate secondEduStartDate = LocalDate.of(1993, 9, 1);
-        LocalDate secondEduEndDate = LocalDate.of(1996, 7, 1);
-
-        Company secondEducation = new Company(
+        Company ifmo = new Company(
                 "Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
                 "www.ifmo.ru",
-                secondEduStartDate,
-                secondEduEndDate,
+                DateUtil.of(1987, Month.SEPTEMBER),
+                DateUtil.of(1993, Month.JULY),
+                "Инженер",
+                "Программист Fortran, С");
+
+        Company ifmoCont = new Company(
+                DateUtil.of(1993, Month.SEPTEMBER),
+                DateUtil.of(1996, Month.JULY),
                 "Аспирант",
                 "Программист С, С++");
 
-        CompanySection education = new CompanySection(new ArrayList<Company>());
+        CompanySection education = new CompanySection(new ArrayList<>());
         education.getCompanyList().add(firstEducation);
-        education.getCompanyList().add(secondEducation);
+        education.getCompanyList().add(ifmo);
+        education.getCompanyList().add(ifmoCont);
 
         resume.getSections().put(SectionType.OBJECTIVE, objective);
         resume.getSections().put(SectionType.PERSONAL, personal);

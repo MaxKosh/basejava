@@ -4,32 +4,36 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Company {
-    private final String companyName;
-    private final String url;
+    private final Link homePage;
     private final LocalDate startDate;
     private final LocalDate endDate;
     private final String position;
     private final String description;
 
     public Company(String companyName, String url, LocalDate startDate, LocalDate endDate, String position, String description) {
-        Objects.requireNonNull(companyName, "CompanyName must not be null");
         Objects.requireNonNull(startDate, "StartDate must not be null");
         Objects.requireNonNull(endDate, "EndDate must not be null");
         Objects.requireNonNull(position, "Position must not be null");
-        this.companyName = companyName;
-        this.url = url;
+        this.homePage = new Link(companyName, url);
         this.startDate = startDate;
         this.endDate = endDate;
         this.position = position;
         this.description = description;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public Company(LocalDate startDate, LocalDate endDate, String position, String description) {
+        Objects.requireNonNull(startDate, "StartDate must not be null");
+        Objects.requireNonNull(endDate, "EndDate must not be null");
+        Objects.requireNonNull(position, "Position must not be null");
+        this.homePage = null;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.position = position;
+        this.description = description;
     }
 
-    public String getUrl() {
-        return url;
+    public Link getHomePage() {
+        return homePage;
     }
 
     public LocalDate getStartDate() {
@@ -53,8 +57,7 @@ public class Company {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Company company = (Company) o;
-        return companyName.equals(company.companyName) &&
-                Objects.equals(url, company.url) &&
+        return homePage.equals(company.homePage) &&
                 startDate.equals(company.startDate) &&
                 endDate.equals(company.endDate) &&
                 position.equals(company.position) &&
@@ -63,14 +66,13 @@ public class Company {
 
     @Override
     public int hashCode() {
-        return Objects.hash(companyName, url, startDate, endDate, position, description);
+        return Objects.hash(homePage, startDate, endDate, position, description);
     }
 
     @Override
     public String toString() {
         return "COMPANY: " +
-                "\ncompanyName = " + companyName +
-                "\nwebsite = " + url +
+                "\nhomepage = " + homePage +
                 "\nstartDate = " + startDate +
                 "\nendDate = " + endDate +
                 "\nposition = " + position +

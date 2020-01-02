@@ -8,8 +8,9 @@ import java.util.*;
 public class Resume {
     private final String uuid;
     private final String fullName;
-    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+
 
     public Resume(String uuid, String fullName) {
         Objects.requireNonNull(uuid, "uuid must not be null");
@@ -30,12 +31,12 @@ public class Resume {
         return uuid;
     }
 
-    public Map<SectionType, Section> getSections() {
-        return sections;
-    }
-
     public Map<ContactType, String> getContacts() {
         return contacts;
+    }
+
+    public Map<SectionType, Section> getSections() {
+        return sections;
     }
 
     @Override
