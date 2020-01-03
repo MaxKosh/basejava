@@ -1,31 +1,28 @@
 package com.maxkosh.webapp;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainFile {
     public static void main(String[] args) {
-        File file = new File("./.gitignore");
-        try {
-            System.out.println(file.getCanonicalPath());
-        } catch (IOException e) {
-            throw new RuntimeException("Error", e);
-        }
+        //String dirPath = "/Users/max/basejava/src"";
+        String dirPath = "C:/Users/1/IdeaProjects/basejava/src";
+        getPath(dirPath, null);
+    }
 
-        File dir = new File("/Users/max/basejava/src/com/maxkosh/webapp");
-        System.out.println(dir.isDirectory());
-        String[] list = dir.list();
-        if (list != null) {
-            for (String name : dir.list()) {
-                System.out.println(name);
+    public static void getPath(String path, File dir) {
+        dir = new File(path);
+        for (File file : Objects.requireNonNull(dir.listFiles())) {
+            System.out.println(file.getName());
+            if (file.isDirectory()) {
+                try {
+                    String canonicalPath = file.getCanonicalPath();
+                    getPath(canonicalPath, file);
+                } catch (IOException e) {
+                    throw new RuntimeException("Error", e);
+                }
             }
-        }
-
-        try (FileInputStream fis = new FileInputStream("./.gitignore");) {
-            System.out.println(fis.read());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 }
