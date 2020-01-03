@@ -6,16 +6,20 @@ import java.util.Objects;
 
 public class MainFile {
     public static void main(String[] args) throws IOException {
-        File dir = new File("/Users/max/basejava/src");
-        printFileName(dir);
+        File dir = new File("C:/Users/1/IdeaProjects/basejava/src");
+        String tab = "";
+        printFileName(dir, tab);
     }
 
-    public static void printFileName(File directory) throws IOException {
+    public static void printFileName(File directory, String tab) throws IOException {
+        tab += "  ";
         for (File file : Objects.requireNonNull(directory.listFiles())) {
-            if (!file.isDirectory()) {
-                System.out.println(file.getName());
-            } else {
-                printFileName(file);
+            if (file.isFile()) {
+                System.out.println(tab + "File: " + file.getName());
+            }
+            if (file.isDirectory()) {
+                System.out.println(tab + "Directory: " + file.getName());
+                printFileName(file, tab);
             }
         }
     }

@@ -6,18 +6,21 @@ import com.maxkosh.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
+    protected static final File STORAGE_DIR = new File("C:/Users/1/IdeaProjects/basejava/src/com/maxkosh/webapp/storage");
     protected Storage storage;
 
     private static final Resume RESUME_1 = ResumeTestData.resume_1;
     private static final Resume RESUME_2 = ResumeTestData.resume_2;
     private static final Resume RESUME_3 = ResumeTestData.resume_3;
     private static final Resume RESUME_4 = ResumeTestData.resume_4;
+
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -89,8 +92,8 @@ public abstract class AbstractStorageTest {
         List<Resume> storageAsList = storage.getAllSorted();
         ArrayList<Resume> testList = new ArrayList<>();
         testList.add(RESUME_1);
-        testList.add(RESUME_3);
         testList.add(RESUME_2);
+        testList.add(RESUME_3);
         assertEquals(storageAsList, testList);
     }
 

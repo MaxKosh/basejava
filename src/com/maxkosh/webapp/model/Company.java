@@ -60,7 +60,7 @@ public class Company {
             this(positionTitle, of(startYear, startMonth), NOW, description);
         }
 
-        public Position(int startYear, int endYear, Month startMonth, Month endMonth, String positionTitle, String description) {
+        public Position(int startYear, Month startMonth, int endYear, Month endMonth, String positionTitle, String description) {
             this(positionTitle, of(startYear, startMonth), of(endYear, endMonth), description);
         }
 
