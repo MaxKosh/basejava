@@ -5,23 +5,20 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class MainFile {
-    public static void main(String[] args) {
-        //String dirPath = "/Users/max/basejava/src"";
-        String dirPath = "C:/Users/1/IdeaProjects/basejava/src";
-        getPath(dirPath);
+    public static void main(String[] args) throws IOException {
+        String dirPath = "/Users/max/basejava/src";
+        //String dirPath = "C:/Users/1/IdeaProjects/basejava/src";
+        getFileName(dirPath);
     }
 
-    public static void getPath(String path) {
+    public static void getFileName(String path) throws IOException {
         File dir = new File(path);
         for (File file : Objects.requireNonNull(dir.listFiles())) {
-            System.out.println(file.getName());
-            if (file.isDirectory()) {
-                try {
-                    String canonicalPath = file.getCanonicalPath();
-                    getPath(canonicalPath);
-                } catch (IOException e) {
-                    throw new RuntimeException("Error", e);
-                }
+            if (!file.isDirectory()) {
+                System.out.println(file.getName());
+            } else {
+                String canonicalPath = file.getCanonicalPath();
+                getFileName(canonicalPath);
             }
         }
     }

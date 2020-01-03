@@ -34,34 +34,27 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected Resume doGet(File file) {
-        for (File fileInDir : Objects.requireNonNull(directory.listFiles())) {
-            if (fileInDir.equals(file)) {
-                try {
-                    return doRead(fileInDir);
-                } catch (IOException e) {
-                    throw new StorageException("IO error", file.getName(), e);
-                }
-            }
+        try {
+            return doRead(file);
+        } catch (IOException e) {
+            throw new StorageException("IO error", file.getName(), e);
         }
-        return null;
     }
 
     @Override
     protected void doUpdate(Resume resume, File file) {
-        for (File fileInDir : Objects.requireNonNull(directory.listFiles())) {
-            if (fileInDir.equals(file)) {
-                try {
-                    doWrite(resume, fileInDir);
-                } catch (IOException e) {
-                    throw new StorageException("IO error", file.getName(), e);
-                }
-            }
+        try {
+            doWrite(resume, file);
+        } catch (IOException e) {
+            throw new StorageException("IO error", file.getName(), e);
         }
     }
 
     @Override
     protected void doDelete(File file) {
-        file.delete();
+        if (!file.delete()) {
+            throw new StorageException("IO error", file.getName());
+        }
     }
 
     @Override
@@ -82,25 +75,37 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected List<Resume> getList() {
         List<Resume> resumeList = new ArrayList<>();
-        for (File fileInDir : Objects.requireNonNull(directory.listFiles())) {
-            try {
-                resumeList.add(doRead(fileInDir));
-            } catch (IOException e) {
-                throw new StorageException("IO error", fileInDir.getName(), e);
+        if (directory.listFiles() != null) {
+            for (File file : directory.listFiles()) {
+                try {
+                    resumeList.add(doRead(file));
+                } catch (IOException e) {
+                    throw new StorageException("IO error", file.getName(), e);
+                }
             }
+            return resumeList;
+        } else {
+            throw new StorageException("Error: directory.listFiles()  = null", directory.getAbsolutePath());
         }
-        return resumeList;
     }
 
     @Override
     public void clear() {
-        for (File file : (Objects.requireNonNull(directory.listFiles()))) {
-            file.delete();
+        if (directory.listFiles() != null) {
+            for (File file : directory.listFiles()) {
+                doDelete(file);
+            }
+        } else {
+            throw new StorageException("Error: directory.listFiles()  = null", directory.getAbsolutePath());
         }
     }
 
     @Override
     public int size() {
-        return Objects.requireNonNull(directory.listFiles()).length;
+        if (directory.listFiles() != null) {
+            return directory.listFiles().length;
+        } else {
+            throw new StorageException("Error: directory.listFiles()  = null", directory.getAbsolutePath());
+        }
     }
 }
