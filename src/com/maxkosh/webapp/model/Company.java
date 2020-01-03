@@ -1,34 +1,17 @@
 package com.maxkosh.webapp.model;
 
-import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 public class Company {
     private final Link homePage;
-    private final LocalDate startDate;
-    private final LocalDate endDate;
-    private final String position;
+    private List<Position> positions;
     private final String description;
 
-    public Company(String companyName, String url, LocalDate startDate, LocalDate endDate, String position, String description) {
-        Objects.requireNonNull(startDate, "StartDate must not be null");
-        Objects.requireNonNull(endDate, "EndDate must not be null");
-        Objects.requireNonNull(position, "Position must not be null");
+    public Company(String companyName, String url, List<Position> positions, String description) {
+        Objects.requireNonNull(positions, "Position must not be null");
         this.homePage = new Link(companyName, url);
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.position = position;
-        this.description = description;
-    }
-
-    public Company(LocalDate startDate, LocalDate endDate, String position, String description) {
-        Objects.requireNonNull(startDate, "StartDate must not be null");
-        Objects.requireNonNull(endDate, "EndDate must not be null");
-        Objects.requireNonNull(position, "Position must not be null");
-        this.homePage = null;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.position = position;
+        this.positions = positions;
         this.description = description;
     }
 
@@ -36,16 +19,8 @@ public class Company {
         return homePage;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public String getPosition() {
-        return position;
+    public List<Position> getPositions() {
+        return positions;
     }
 
     public String getDescription() {
@@ -58,24 +33,19 @@ public class Company {
         if (o == null || getClass() != o.getClass()) return false;
         Company company = (Company) o;
         return homePage.equals(company.homePage) &&
-                startDate.equals(company.startDate) &&
-                endDate.equals(company.endDate) &&
-                position.equals(company.position) &&
+                positions.equals(company.positions) &&
                 Objects.equals(description, company.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(homePage, startDate, endDate, position, description);
+        return Objects.hash(homePage, positions, description);
     }
 
     @Override
     public String toString() {
-        return "COMPANY: " +
-                "\nhomepage = " + homePage +
-                "\nstartDate = " + startDate +
-                "\nendDate = " + endDate +
-                "\nposition = " + position +
-                "\ndescription = " + description + "\n";
+        return "homePage = " + homePage +
+                "\npositions = " + positions +
+                "\ndescription = " + description;
     }
 }
