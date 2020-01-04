@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Company {
     private final Link homePage;
-    private List<Position> positions;
+    private final List<Position> positions;
     private final String description;
 
     public Company(String companyName, String url, List<Position> positions, String description) {

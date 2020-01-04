@@ -6,8 +6,8 @@ import java.util.Objects;
 
 public class MainFile {
     public static void main(String[] args) throws IOException {
-        //String dirPath = "/Users/max/basejava/src";
-        String dirPath = "C:/Users/1/IdeaProjects/basejava/src";
+        String dirPath = "/Users/max/basejava/src";
+        //String dirPath = "C:/Users/1/IdeaProjects/basejava/src";
         printFileName(dirPath);
     }
 

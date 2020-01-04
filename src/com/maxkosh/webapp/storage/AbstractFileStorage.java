@@ -85,7 +85,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             }
             return resumeList;
         } else {
-            throw new StorageException("Error: directory.listFiles()  = null", directory.getAbsolutePath());
+            throw new StorageException("IO error", directory.getAbsolutePath());
         }
     }
 
@@ -96,7 +96,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
                 doDelete(file);
             }
         } else {
-            throw new StorageException("Error: directory.listFiles()  = null", directory.getAbsolutePath());
+            throw new StorageException("IO error", directory.getAbsolutePath());
         }
     }
 
@@ -105,7 +105,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         if (directory.listFiles() != null) {
             return directory.listFiles().length;
         } else {
-            throw new StorageException("Error: directory.listFiles()  = null", directory.getAbsolutePath());
+            throw new StorageException("IO error", directory.getAbsolutePath());
         }
     }
 }
