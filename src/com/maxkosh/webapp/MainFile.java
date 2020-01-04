@@ -6,19 +6,16 @@ import java.util.Objects;
 
 public class MainFile {
     public static void main(String[] args) throws IOException {
-        String dirPath = "/Users/max/basejava/src";
-        //String dirPath = "C:/Users/1/IdeaProjects/basejava/src";
-        printFileName(dirPath);
+        File dir = new File("/Users/max/basejava/src");
+        printFileName(dir);
     }
 
-    public static void printFileName(String path) throws IOException {
-        File dir = new File(path);
-        for (File file : Objects.requireNonNull(dir.listFiles())) {
+    public static void printFileName(File directory) throws IOException {
+        for (File file : Objects.requireNonNull(directory.listFiles())) {
             if (!file.isDirectory()) {
                 System.out.println(file.getName());
             } else {
-                String canonicalPath = file.getCanonicalPath();
-                printFileName(canonicalPath);
+                printFileName(file);
             }
         }
     }

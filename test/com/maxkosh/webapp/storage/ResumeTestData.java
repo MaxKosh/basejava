@@ -48,27 +48,27 @@ public class ResumeTestData {
         Position firstCompanyPositionResume1 = new Position(
                 "Инженер по аппаратному и программному тестированию",
                 DateUtil.of(1997, Month.SEPTEMBER),
-                DateUtil.of(2005, Month.JANUARY));
+                DateUtil.of(2005, Month.JANUARY),
+                "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).");
         firstCompanyPositionsResume1.add(firstCompanyPositionResume1);
 
         Company firstCompanyResume1 = new Company(
                 "Alcatel",
                 null,
-                firstCompanyPositionsResume1,
-                "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).");
+                firstCompanyPositionsResume1);
 
         List<Position> secondCompanyPositionsResume1 = new ArrayList<>();
         Position secondCompanyPositionResume1 = new Position(
                 "Разработчик ПО",
                 DateUtil.of(2005, Month.JANUARY),
-                DateUtil.of(2007, Month.FEBRUARY));
+                DateUtil.of(2007, Month.FEBRUARY),
+                "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix).");
         secondCompanyPositionsResume1.add(secondCompanyPositionResume1);
 
         Company secondCompanyResume1 = new Company(
                 "Siemens AG",
                 "www.siemens.com",
-                secondCompanyPositionsResume1,
-                "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix).");
+                secondCompanyPositionsResume1);
 
         CompanySection experienceResume1 = new CompanySection(new ArrayList<>());
         experienceResume1.getCompanyList().add(firstCompanyResume1);
@@ -78,33 +78,34 @@ public class ResumeTestData {
         Position firstEduPositionResume1 = new Position(
                 "Студент",
                 DateUtil.of(1984, Month.SEPTEMBER),
-                DateUtil.of(1987, Month.JANUARY));
+                DateUtil.of(1987, Month.JANUARY),
+                null);
         firstEduPositionsResume1.add(firstEduPositionResume1);
 
         Company firstEducation = new Company(
                 "Заочная физико-техническая школа при МФТИ",
                 null,
-                firstEduPositionsResume1,
-                null);
+                firstEduPositionsResume1);
 
         List<Position> secondEduPositionsResume1 = new ArrayList<>();
         Position secondEduPosition1Resume1 = new Position(
                 "Инженер. Программист Fortran, C",
                 DateUtil.of(1987, Month.SEPTEMBER),
-                DateUtil.of(1993, Month.JULY));
+                DateUtil.of(1993, Month.JULY),
+                null);
         secondEduPositionsResume1.add(secondEduPosition1Resume1);
 
         Position secondEduPosition2Resume1 = new Position(
                 "Аспирант. Программист C, C++",
                 DateUtil.of(1993, Month.SEPTEMBER),
-                DateUtil.of(1996, Month.JULY));
+                DateUtil.of(1996, Month.JULY),
+                null);
         secondEduPositionsResume1.add(secondEduPosition2Resume1);
 
         Company ifmo = new Company(
                 "Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
                 "www.ifmo.ru",
-                secondEduPositionsResume1,
-                null);
+                secondEduPositionsResume1);
 
         CompanySection educationResume1 = new CompanySection(new ArrayList<>());
         educationResume1.getCompanyList().add(firstEducation);
@@ -130,27 +131,27 @@ public class ResumeTestData {
         Position firstCompanyPositionResume2 = new Position(
                 "Менеджер",
                 DateUtil.of(2010, Month.SEPTEMBER),
-                DateUtil.of(2011, Month.JANUARY));
+                DateUtil.of(2011, Month.JANUARY),
+                "Продажи цветов");
         firstCompanyPositionsResume2.add(firstCompanyPositionResume2);
 
         Company firstCompanyResume2 = new Company(
                 "ООО \"Ромашка\"",
                 "www.romashka.org",
-                firstCompanyPositionsResume2,
-                "Продажи цветов");
+                firstCompanyPositionsResume2);
 
         List<Position> secondCompanyPositionsResume2 = new ArrayList<>();
         Position secondCompanyPositionResume2 = new Position(
                 "Менеджер",
                 DateUtil.of(2012, Month.JANUARY),
-                DateUtil.of(2019, Month.FEBRUARY));
+                DateUtil.of(2019, Month.FEBRUARY),
+                null);
         secondCompanyPositionsResume2.add(secondCompanyPositionResume2);
 
         Company secondCompanyResume2 = new Company(
                 "Рога и Копыта",
                 "www.siemens.com",
-                secondCompanyPositionsResume2,
-                null);
+                secondCompanyPositionsResume2);
 
         CompanySection experienceResume2 = new CompanySection(new ArrayList<>());
         experienceResume2.getCompanyList().add(firstCompanyResume2);
