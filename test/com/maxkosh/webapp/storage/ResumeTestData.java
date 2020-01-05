@@ -13,13 +13,13 @@ public class ResumeTestData {
     static Resume resume_4 = new Resume("Сергей Сергеев");
 
     public static void resumeInit() {
-        resume_1.getContacts().put(ContactType.E_MAIL, "gkislin@yandex.ru");
-        resume_1.getContacts().put(ContactType.PHONE_NUMBER, "+7(921)855-0482");
-        resume_1.getContacts().put(ContactType.SKYPE, "grigory.kislin");
-        resume_1.getContacts().put(ContactType.LINKEDIN, "LinkedIn");
-        resume_1.getContacts().put(ContactType.GITHUB, "GitHub");
-        resume_1.getContacts().put(ContactType.STACKOVERFLOW, "StackOverFlow");
-        resume_1.getContacts().put(ContactType.HOMEPAGE, "TopJava");
+        resume_1.addContact(ContactType.E_MAIL, "gkislin@yandex.ru");
+        resume_1.addContact(ContactType.PHONE_NUMBER, "+7(921)855-0482");
+        resume_1.addContact(ContactType.SKYPE, "grigory.kislin");
+        resume_1.addContact(ContactType.LINKEDIN, "LinkedIn");
+        resume_1.addContact(ContactType.GITHUB, "GitHub");
+        resume_1.addContact(ContactType.STACKOVERFLOW, "StackOverFlow");
+        resume_1.addContact(ContactType.HOMEPAGE, "TopJava");
 
         TextSection objectiveResume1 = new TextSection("\nВедущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям\n");
         TextSection personalResume1 = new TextSection("\nАналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.\n");
@@ -44,130 +44,130 @@ public class ResumeTestData {
         qualificationListResume1.add("\n- MySQL, SQLite, MS SQL, HSQLDB");
         ListSection qualificationResume1 = new ListSection(qualificationListResume1);
 
-        List<Position> firstCompanyPositionsResume1 = new ArrayList<>();
-        Position firstCompanyPositionResume1 = new Position(
+        List<Company.Position> firstCompanyPositionsResume1 = new ArrayList<>();
+        Company.Position firstCompanyPositionResume1 = new Company.Position(
                 "Инженер по аппаратному и программному тестированию",
                 DateUtil.of(1997, Month.SEPTEMBER),
                 DateUtil.of(2005, Month.JANUARY),
                 "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).");
         firstCompanyPositionsResume1.add(firstCompanyPositionResume1);
 
-        Company firstCompanyResume1 = new Company(
+        /*Company firstCompanyResume1 = new Company(
                 "Alcatel",
                 null,
-                firstCompanyPositionsResume1);
+                firstCompanyPositionsResume1);*/
 
-        List<Position> secondCompanyPositionsResume1 = new ArrayList<>();
-        Position secondCompanyPositionResume1 = new Position(
+        List<Company.Position> secondCompanyPositionsResume1 = new ArrayList<>();
+        Company.Position secondCompanyPositionResume1 = new Company.Position(
                 "Разработчик ПО",
                 DateUtil.of(2005, Month.JANUARY),
                 DateUtil.of(2007, Month.FEBRUARY),
                 "Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix).");
         secondCompanyPositionsResume1.add(secondCompanyPositionResume1);
 
-        Company secondCompanyResume1 = new Company(
+        /*Company secondCompanyResume1 = new Company(
                 "Siemens AG",
                 "www.siemens.com",
-                secondCompanyPositionsResume1);
+                secondCompanyPositionsResume1);*/
 
         CompanySection experienceResume1 = new CompanySection(new ArrayList<>());
-        experienceResume1.getCompanyList().add(firstCompanyResume1);
-        experienceResume1.getCompanyList().add(secondCompanyResume1);
+        /*experienceResume1.getCompanyList().add(firstCompanyResume1);
+        experienceResume1.getCompanyList().add(secondCompanyResume1);*/
 
-        List<Position> firstEduPositionsResume1 = new ArrayList<>();
-        Position firstEduPositionResume1 = new Position(
+        List<Company.Position> firstEduPositionsResume1 = new ArrayList<>();
+        Company.Position firstEduPositionResume1 = new Company.Position(
                 "Студент",
                 DateUtil.of(1984, Month.SEPTEMBER),
                 DateUtil.of(1987, Month.JANUARY),
                 null);
         firstEduPositionsResume1.add(firstEduPositionResume1);
 
-        Company firstEducation = new Company(
+        /*Company firstEducation = new Company(
                 "Заочная физико-техническая школа при МФТИ",
                 null,
-                firstEduPositionsResume1);
+                firstEduPositionsResume1);*/
 
-        List<Position> secondEduPositionsResume1 = new ArrayList<>();
-        Position secondEduPosition1Resume1 = new Position(
+        List<Company.Position> secondEduPositionsResume1 = new ArrayList<>();
+        Company.Position secondEduPosition1Resume1 = new Company.Position(
                 "Инженер. Программист Fortran, C",
                 DateUtil.of(1987, Month.SEPTEMBER),
                 DateUtil.of(1993, Month.JULY),
                 null);
         secondEduPositionsResume1.add(secondEduPosition1Resume1);
 
-        Position secondEduPosition2Resume1 = new Position(
+        Company.Position secondEduPosition2Resume1 = new Company.Position(
                 "Аспирант. Программист C, C++",
                 DateUtil.of(1993, Month.SEPTEMBER),
                 DateUtil.of(1996, Month.JULY),
                 null);
         secondEduPositionsResume1.add(secondEduPosition2Resume1);
 
-        Company ifmo = new Company(
+        /*Company ifmo = new Company(
                 "Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
                 "www.ifmo.ru",
-                secondEduPositionsResume1);
+                secondEduPositionsResume1);*/
 
         CompanySection educationResume1 = new CompanySection(new ArrayList<>());
-        educationResume1.getCompanyList().add(firstEducation);
-        educationResume1.getCompanyList().add(ifmo);
+        /*educationResume1.getCompanyList().add(firstEducation);
+        educationResume1.getCompanyList().add(ifmo);*/
 
-        resume_1.getSections().put(SectionType.OBJECTIVE, objectiveResume1);
-        resume_1.getSections().put(SectionType.PERSONAL, personalResume1);
-        resume_1.getSections().put(SectionType.ACHIEVEMENT, achievementResume1);
-        resume_1.getSections().put(SectionType.QUALIFICATIONS, qualificationResume1);
-        resume_1.getSections().put(SectionType.EXPERIENCE, experienceResume1);
-        resume_1.getSections().put(SectionType.EDUCATION, educationResume1);
+        resume_1.addSection(SectionType.OBJECTIVE, objectiveResume1);
+        resume_1.addSection(SectionType.PERSONAL, personalResume1);
+        resume_1.addSection(SectionType.ACHIEVEMENT, achievementResume1);
+        resume_1.addSection(SectionType.QUALIFICATIONS, qualificationResume1);
+        resume_1.addSection(SectionType.EXPERIENCE, experienceResume1);
+        resume_1.addSection(SectionType.EDUCATION, educationResume1);
 
 
-        resume_2.getContacts().put(ContactType.E_MAIL, "maxdiorio@yandex.ru");
-        resume_2.getContacts().put(ContactType.PHONE_NUMBER, "+7(916)202-9446");
-        resume_2.getContacts().put(ContactType.SKYPE, "max.diorio");
-        resume_2.getContacts().put(ContactType.GITHUB, "GitHub");
+        resume_2.addContact(ContactType.E_MAIL, "maxdiorio@yandex.ru");
+        resume_2.addContact(ContactType.PHONE_NUMBER, "+7(916)202-9446");
+        resume_2.addContact(ContactType.SKYPE, "max.diorio");
+        resume_2.addContact(ContactType.GITHUB, "GitHub");
 
         TextSection objectiveResume2 = new TextSection("\nМенеджер отдела продаж\n");
         TextSection personalResume2 = new TextSection("\nКреативность\n");
 
-        List<Position> firstCompanyPositionsResume2 = new ArrayList<>();
-        Position firstCompanyPositionResume2 = new Position(
+        List<Company.Position> firstCompanyPositionsResume2 = new ArrayList<>();
+        Company.Position firstCompanyPositionResume2 = new Company.Position(
                 "Менеджер",
                 DateUtil.of(2010, Month.SEPTEMBER),
                 DateUtil.of(2011, Month.JANUARY),
                 "Продажи цветов");
         firstCompanyPositionsResume2.add(firstCompanyPositionResume2);
 
-        Company firstCompanyResume2 = new Company(
+        /*Company firstCompanyResume2 = new Company(
                 "ООО \"Ромашка\"",
                 "www.romashka.org",
-                firstCompanyPositionsResume2);
+                firstCompanyPositionsResume2);*/
 
-        List<Position> secondCompanyPositionsResume2 = new ArrayList<>();
-        Position secondCompanyPositionResume2 = new Position(
+        List<Company.Position> secondCompanyPositionsResume2 = new ArrayList<>();
+        Company.Position secondCompanyPositionResume2 = new Company.Position(
                 "Менеджер",
                 DateUtil.of(2012, Month.JANUARY),
                 DateUtil.of(2019, Month.FEBRUARY),
                 null);
         secondCompanyPositionsResume2.add(secondCompanyPositionResume2);
 
-        Company secondCompanyResume2 = new Company(
+        /*Company secondCompanyResume2 = new Company(
                 "Рога и Копыта",
                 "www.siemens.com",
-                secondCompanyPositionsResume2);
+                secondCompanyPositionsResume2);*/
 
         CompanySection experienceResume2 = new CompanySection(new ArrayList<>());
-        experienceResume2.getCompanyList().add(firstCompanyResume2);
-        experienceResume2.getCompanyList().add(secondCompanyResume2);
+        /*experienceResume2.getCompanyList().add(firstCompanyResume2);
+        experienceResume2.getCompanyList().add(secondCompanyResume2);*/
 
-        resume_2.getSections().put(SectionType.OBJECTIVE, objectiveResume2);
-        resume_2.getSections().put(SectionType.PERSONAL, personalResume2);
-        resume_2.getSections().put(SectionType.EXPERIENCE, experienceResume2);
+        resume_2.addSection(SectionType.OBJECTIVE, objectiveResume2);
+        resume_2.addSection(SectionType.PERSONAL, personalResume2);
+        resume_2.addSection(SectionType.EXPERIENCE, experienceResume2);
 
-        resume_3.getContacts().put(ContactType.E_MAIL, "i.ivanov@yandex.ru");
-        resume_3.getContacts().put(ContactType.PHONE_NUMBER, "+7(900)900-9999");
-        resume_3.getContacts().put(ContactType.SKYPE, "ivan.ivanov");
-        resume_3.getContacts().put(ContactType.STACKOVERFLOW, "StackOverFlow/ivan");
-        resume_3.getContacts().put(ContactType.HOMEPAGE, "www.ivanov.ru");
+        resume_3.addContact(ContactType.E_MAIL, "i.ivanov@yandex.ru");
+        resume_3.addContact(ContactType.PHONE_NUMBER, "+7(900)900-9999");
+        resume_3.addContact(ContactType.SKYPE, "ivan.ivanov");
+        resume_3.addContact(ContactType.STACKOVERFLOW, "StackOverFlow/ivan");
+        resume_3.addContact(ContactType.HOMEPAGE, "www.ivanov.ru");
 
-        resume_4.getContacts().put(ContactType.E_MAIL, "sergey@gmail.com");
-        resume_4.getContacts().put(ContactType.SKYPE, "sergey.sergey");
+        resume_4.addContact(ContactType.E_MAIL, "sergey@gmail.com");
+        resume_4.addContact(ContactType.SKYPE, "sergey.sergey");
     }
 }

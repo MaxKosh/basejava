@@ -1,10 +1,15 @@
 package com.maxkosh.webapp.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class ListSection extends Section {
     private final List<String> stringList;
+
+    public ListSection(String... stringList) {
+        this(Arrays.asList(stringList));
+    }
 
     public ListSection(List<String> stringList) {
         Objects.requireNonNull(stringList, "List must not be null");

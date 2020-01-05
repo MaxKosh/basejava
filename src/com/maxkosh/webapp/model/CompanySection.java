@@ -1,11 +1,16 @@
 package com.maxkosh.webapp.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 
 public class CompanySection extends Section {
     private final List<Company> companyList;
+
+    public CompanySection(Company... companyList) {
+        this(Arrays.asList(companyList));
+    }
 
     public CompanySection(List<Company> companyList) {
         Objects.requireNonNull(companyList, "List must not be null");
