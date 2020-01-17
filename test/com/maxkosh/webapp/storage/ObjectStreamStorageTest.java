@@ -1,7 +1,7 @@
 package com.maxkosh.webapp.storage;
 
 public class ObjectStreamStorageTest extends AbstractStorageTest {
-    protected ObjectStreamStorageTest() {
+    public ObjectStreamStorageTest() {
         super(new ObjectStreamStorage(STORAGE_DIR));
     }
 }

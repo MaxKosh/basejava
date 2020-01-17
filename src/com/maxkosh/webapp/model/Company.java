@@ -1,5 +1,6 @@
 package com.maxkosh.webapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
@@ -9,7 +10,9 @@ import java.util.Objects;
 import static com.maxkosh.webapp.util.DateUtil.NOW;
 import static com.maxkosh.webapp.util.DateUtil.of;
 
-public class Company {
+public class Company implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final Link homePage;
     private final List<Position> positions;
 
@@ -50,7 +53,9 @@ public class Company {
                 "\npositions = " + positions + "\n";
     }
 
-    public static class Position {
+    public static class Position implements Serializable {
+        private static final long serialVersionUID = 1L;
+
         private final String positionTitle;
         private final LocalDate startDate;
         private final LocalDate endDate;

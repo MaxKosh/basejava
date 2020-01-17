@@ -13,13 +13,20 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("C:/Users/1/IdeaProjects/basejava/src/com/maxkosh/webapp/storage");
+    protected static final File STORAGE_DIR = new File("C:\\Users\\1\\IdeaProjects\\basejava\\Storage");
     protected Storage storage;
 
-    private static final Resume RESUME_1 = ResumeTestData.resume_1;
-    private static final Resume RESUME_2 = ResumeTestData.resume_2;
-    private static final Resume RESUME_3 = ResumeTestData.resume_3;
-    private static final Resume RESUME_4 = ResumeTestData.resume_4;
+    private static final Resume RESUME_1;
+    private static final Resume RESUME_2;
+    private static final Resume RESUME_3;
+    private static final Resume RESUME_4;
+
+    static {
+        RESUME_1 = ResumeTestData.resume_1;
+        RESUME_2 = ResumeTestData.resume_2;
+        RESUME_3 = ResumeTestData.resume_3;
+        RESUME_4 = ResumeTestData.resume_4;
+    }
 
 
     protected AbstractStorageTest(Storage storage) {
@@ -56,7 +63,7 @@ public abstract class AbstractStorageTest {
     public void update() {
         Resume newResume = new Resume(RESUME_1.getUuid(), "");
         storage.update(newResume);
-        assertSame(newResume, storage.get(RESUME_1.getUuid()));
+        assertTrue(newResume.equals(storage.get(RESUME_1.getUuid())));
         assertSize(3);
     }
 

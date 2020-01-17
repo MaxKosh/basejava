@@ -1,11 +1,14 @@
 package com.maxkosh.webapp.model;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Initial resume class
  */
-public class Resume {
+public class Resume implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final String uuid;
     private final String fullName;
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
