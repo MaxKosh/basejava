@@ -5,7 +5,8 @@ import com.maxkosh.webapp.model.Resume;
 
 import java.io.*;
 
-public class ObjectStream {
+public class ObjectStreamSerializer implements SerializerStrategy {
+
     public void doWrite(Resume resume, OutputStream os) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
             oos.writeObject(resume);
