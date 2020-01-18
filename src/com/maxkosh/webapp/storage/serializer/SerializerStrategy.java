@@ -1,4 +1,4 @@
-package com.maxkosh.webapp.storage;
+package com.maxkosh.webapp.storage.serializer;
 
 import com.maxkosh.webapp.model.Resume;
 

@@ -1,5 +1,10 @@
 package com.maxkosh.webapp.model;
 
+import com.maxkosh.webapp.util.LocalDateAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -10,11 +15,16 @@ import java.util.Objects;
 import static com.maxkosh.webapp.util.DateUtil.NOW;
 import static com.maxkosh.webapp.util.DateUtil.of;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Company implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final Link homePage;
-    private final List<Position> positions;
+    private Link homePage;
+    private List<Position> positions;
+
+    public Company() {
+
+    }
 
     public Company(String companyName, String url, Position... positions) {
         this(new Link(companyName, url), Arrays.asList(positions));
@@ -53,13 +63,19 @@ public class Company implements Serializable {
                 "\npositions = " + positions + "\n";
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        private final String positionTitle;
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final String description;
+        private String positionTitle;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate startDate;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate endDate;
+        private String description;
+
+        public Position() {
+        }
 
         public Position(int startYear, Month startMonth, String positionTitle, String description) {
             this(positionTitle, of(startYear, startMonth), NOW, description);

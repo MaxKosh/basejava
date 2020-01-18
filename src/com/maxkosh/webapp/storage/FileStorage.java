@@ -2,6 +2,7 @@ package com.maxkosh.webapp.storage;
 
 import com.maxkosh.webapp.exception.StorageException;
 import com.maxkosh.webapp.model.Resume;
+import com.maxkosh.webapp.storage.serializer.SerializerStrategy;
 
 import java.io.*;
 import java.util.ArrayList;

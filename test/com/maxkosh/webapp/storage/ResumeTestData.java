@@ -1,10 +1,8 @@
 package com.maxkosh.webapp.storage;
 
 import com.maxkosh.webapp.model.*;
-import com.maxkosh.webapp.util.DateUtil;
 
 import java.time.Month;
-import java.util.*;
 
 public class ResumeTestData {
     static final Resume resume_1;

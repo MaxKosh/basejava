@@ -30,35 +30,35 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     @Override
     public void save(Resume resume) {
-        LOG.info("Save " + resume);
+        //LOG.info("Save " + resume);
         SK searchKey = getNotExistedSearchKey(resume.getUuid());
         doSave(resume, searchKey);
     }
 
     @Override
     public void update(Resume resume) {
-        LOG.info("Update " + resume);
+        //LOG.info("Update " + resume);
         SK searchKey = getExistedSearchKey(resume.getUuid());
         doUpdate(resume, searchKey);
     }
 
     @Override
     public Resume get(String uuid) {
-        LOG.info("Get " + uuid);
+        //LOG.info("Get " + uuid);
         SK searchKey = getExistedSearchKey(uuid);
         return doGet(searchKey);
     }
 
     @Override
     public void delete(String uuid) {
-        LOG.info("Delete " + uuid);
+        //LOG.info("Delete " + uuid);
         SK searchKey = getExistedSearchKey(uuid);
         doDelete(searchKey);
     }
 
     @Override
     public List<Resume> getAllSorted() {
-        LOG.info("getAllSorted ");
+        //LOG.info("getAllSorted ");
         List<Resume> sortedList = getList();
         sortedList.sort(RESUME_COMPARATOR);
         return sortedList;
@@ -67,7 +67,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     private SK getExistedSearchKey(String uuid) {
         SK searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
-            LOG.warning("Resume with UUID: " + uuid + " does not exist");
+            //LOG.warning("Resume with UUID: " + uuid + " does not exist");
             throw new NotExistStorageException(uuid);
         } else {
             return searchKey;
@@ -77,7 +77,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     private SK getNotExistedSearchKey(String uuid) {
         SK searchKey = getSearchKey(uuid);
         if (isExist(searchKey)) {
-            LOG.warning("Resume with UUID: " + uuid + " already exist");
+            //LOG.warning("Resume with UUID: " + uuid + " already exist");
             throw new ExistStorageException(uuid);
         } else {
             return searchKey;

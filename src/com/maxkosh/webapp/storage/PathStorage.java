@@ -2,6 +2,7 @@ package com.maxkosh.webapp.storage;
 
 import com.maxkosh.webapp.exception.StorageException;
 import com.maxkosh.webapp.model.Resume;
+import com.maxkosh.webapp.storage.serializer.SerializerStrategy;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -18,7 +19,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     protected PathStorage(String dir, SerializerStrategy serializerStrategy) {
         directory = Paths.get(dir);
-        Objects.requireNonNull(directory, "Directory must not be null");
+        Objects.requireNonNull(directory, "directory must not be null");
         this.serializerStrategy = serializerStrategy;
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writeable");
@@ -35,7 +36,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             return serializerStrategy.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("Path read error", path.toString(), e);
+            throw new StorageException("Path read error", getFileName(path), e);
         }
     }
 
@@ -44,7 +45,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             serializerStrategy.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("Path write error", path.toString(), e);
+            throw new StorageException("Path write error", getFileName(path), e);
         }
     }
 
@@ -53,7 +54,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.delete(path);
         } catch (IOException e) {
-            throw new StorageException("Path delete error", path.toString(), e);
+            throw new StorageException("Path delete error", getFileName(path), e);
         }
     }
 
@@ -62,7 +63,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("File create error", path.toString(), e);
+            throw new StorageException("File create error", getFileName(path), e);
         }
         doUpdate(resume, path);
     }
@@ -91,7 +92,11 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             return Files.list(directory);
         } catch (IOException e) {
-            throw new StorageException("Get paths stream error", null, e);
+            throw new StorageException("Get paths stream error", e);
         }
+    }
+
+    private String getFileName(Path path) {
+        return path.getFileName().toString();
     }
 }
