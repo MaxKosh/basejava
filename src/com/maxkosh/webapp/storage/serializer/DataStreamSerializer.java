@@ -5,6 +5,7 @@ import com.maxkosh.webapp.model.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -26,25 +27,31 @@ public class DataStreamSerializer implements SerializerStrategy {
             dos.writeInt(sections.size());
             for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
                 SectionType sectionType = entry.getKey();
+                dos.writeUTF(sectionType.name());
                 switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
-                        dos.writeUTF(sectionType.name());
-                        dos.writeUTF(entry.getValue().toString());
+                        TextSection textSection = (TextSection) entry.getValue();
+                        dos.writeUTF(textSection.getText());
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        dos.writeUTF(sectionType.name());
                         ListSection listSection = (ListSection) entry.getValue();
                         List<String> stringList = listSection.getStringList();
                         dos.writeInt(stringList.size());
                         for (String string : stringList) {
                             dos.writeUTF(string);
                         }
+                        /*writeWithException(stringList, dos, new Operator<T>() {
+
+                            @Override
+                            public void operate() throws IOException {
+                                //dos.writeUTF(stringList.forEach(toString()););
+                            }
+                        });*/
                         break;
                     case EDUCATION:
                     case EXPERIENCE:
-                        dos.writeUTF(sectionType.name());
                         CompanySection companySection = (CompanySection) entry.getValue();
                         List<Company> companyList = companySection.getCompanyList();
                         dos.writeInt(companyList.size());
@@ -52,7 +59,7 @@ public class DataStreamSerializer implements SerializerStrategy {
                             Link homePage = company.getHomePage();
                             dos.writeUTF(homePage.getCompanyName());
                             if (homePage.getUrl() == null) {
-                                dos.writeUTF("null");
+                                dos.writeUTF("");
                             } else {
                                 dos.writeUTF(homePage.getUrl());
                             }
@@ -63,7 +70,7 @@ public class DataStreamSerializer implements SerializerStrategy {
                                 dos.writeUTF(position.getStartDate().toString());
                                 dos.writeUTF(position.getEndDate().toString());
                                 if (position.getDescription() == null) {
-                                    dos.writeUTF("null");
+                                    dos.writeUTF("");
                                 } else {
                                     dos.writeUTF(position.getDescription());
                                 }
@@ -80,6 +87,7 @@ public class DataStreamSerializer implements SerializerStrategy {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
+            Section section = null;
             int contactsSize = dis.readInt();
             for (int i = 0; i < contactsSize; i++) {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
@@ -91,8 +99,7 @@ public class DataStreamSerializer implements SerializerStrategy {
                 switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
-                        TextSection textSection = new TextSection(dis.readUTF());
-                        resume.addSection(sectionType, textSection);
+                        section = new TextSection(dis.readUTF());
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
@@ -101,8 +108,7 @@ public class DataStreamSerializer implements SerializerStrategy {
                         for (int j = 0; j < listSize; j++) {
                             stringList.add(dis.readUTF());
                         }
-                        ListSection listSection = new ListSection(stringList);
-                        resume.addSection(sectionType, listSection);
+                        section = new ListSection(stringList);
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
@@ -111,7 +117,7 @@ public class DataStreamSerializer implements SerializerStrategy {
                         for (int j = 0; j < companyListSize; j++) {
                             String companyName = dis.readUTF();
                             String url = dis.readUTF();
-                            if (url.equals("null")) {
+                            if (url.equals("")) {
                                 url = null;
                             }
                             Link link = new Link(companyName, url);
@@ -122,18 +128,34 @@ public class DataStreamSerializer implements SerializerStrategy {
                                 LocalDate startDate = LocalDate.parse(dis.readUTF());
                                 LocalDate endDate = LocalDate.parse(dis.readUTF());
                                 String description = dis.readUTF();
-                                if (description.equals("null")) {
+                                if (description.equals("")) {
                                     description = null;
                                 }
                                 companyPositionList.add(new Company.Position(positionTitle, startDate, endDate, description));
                             }
                             companyList.add(new Company(link, companyPositionList));
                         }
-                        resume.addSection(sectionType, new CompanySection(companyList));
+                        section = new CompanySection(companyList);
                         break;
                 }
+                resume.addSection(sectionType, section);
             }
             return resume;
         }
     }
+
+
+    private <T> void writeWithException(Collection<T> collection, DataOutputStream dos, Operator<T> operator) throws IOException {
+        dos.writeInt(collection.size());
+        for(T t : collection) {
+            operator.operate();
+        }
+    }
 }
+
+@FunctionalInterface
+interface Operator <T> {
+    void operate() throws IOException;
+}
+
+
