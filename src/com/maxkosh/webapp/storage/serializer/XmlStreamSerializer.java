@@ -1,6 +1,5 @@
 package com.maxkosh.webapp.storage.serializer;
 
-import com.maxkosh.webapp.exception.StorageException;
 import com.maxkosh.webapp.model.*;
 import com.maxkosh.webapp.util.XmlParser;
 

@@ -27,8 +27,8 @@ public class ResumeTestData {
         resume_1.addSection(SectionType.PERSONAL, new TextSection("Personal data"));
         resume_1.addSection(SectionType.ACHIEVEMENT, new ListSection("Achievement1", "Achievement2", "Achievement3"));
         resume_1.addSection(SectionType.QUALIFICATIONS, new ListSection("Qualification1", "Qualification2", "Qualification3"));
-        resume_1.addSection(SectionType.EXPERIENCE, new CompanySection(new Company("Name", "URL",
-                new Company.Position(2000, Month.APRIL, 2001, Month.AUGUST, "Position", "Description"),
+        resume_1.addSection(SectionType.EXPERIENCE, new CompanySection(new Company("Name", null,
+                new Company.Position(2000, Month.APRIL, 2001, Month.AUGUST, "Position", null),
                 new Company.Position(2001, Month.NOVEMBER, "Position", "Description"))));
         resume_1.addSection(SectionType.EDUCATION, new CompanySection(new Company("Name", "URL",
                 new Company.Position(2005, Month.APRIL, 2008, Month.AUGUST, "Position", "Description"),

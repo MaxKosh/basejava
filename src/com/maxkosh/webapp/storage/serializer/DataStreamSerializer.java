@@ -51,14 +51,22 @@ public class DataStreamSerializer implements SerializerStrategy {
                         for (Company company : companyList) {
                             Link homePage = company.getHomePage();
                             dos.writeUTF(homePage.getCompanyName());
-                            dos.writeUTF(homePage.getUrl());
+                            if (homePage.getUrl() == null) {
+                                dos.writeUTF("null");
+                            } else {
+                                dos.writeUTF(homePage.getUrl());
+                            }
                             List<Company.Position> companyPosition = company.getPositions();
                             dos.writeInt(companyPosition.size());
                             for (Company.Position position : companyPosition) {
                                 dos.writeUTF(position.getPositionTitle());
                                 dos.writeUTF(position.getStartDate().toString());
                                 dos.writeUTF(position.getEndDate().toString());
-                                dos.writeUTF(position.getDescription());
+                                if (position.getDescription() == null) {
+                                    dos.writeUTF("null");
+                                } else {
+                                    dos.writeUTF(position.getDescription());
+                                }
                             }
                         }
                         break;
@@ -103,24 +111,25 @@ public class DataStreamSerializer implements SerializerStrategy {
                         for (int j = 0; j < companyListSize; j++) {
                             String companyName = dis.readUTF();
                             String url = dis.readUTF();
+                            if (url.equals("null")) {
+                                url = null;
+                            }
                             Link link = new Link(companyName, url);
                             int positionListSize = dis.readInt();
                             List<Company.Position> companyPositionList = new ArrayList<>();
-                            for (int k = 0; i < positionListSize; i++) {
+                            for (int k = 0; k < positionListSize; k++) {
                                 String positionTitle = dis.readUTF();
-                                String startDateStr = dis.readUTF();
-                                LocalDate startDate = LocalDate.parse(startDateStr);
-                                String endDateStr = dis.readUTF();
-                                LocalDate endDate = LocalDate.parse(endDateStr);
+                                LocalDate startDate = LocalDate.parse(dis.readUTF());
+                                LocalDate endDate = LocalDate.parse(dis.readUTF());
                                 String description = dis.readUTF();
-                                Company.Position position = new Company.Position(positionTitle, startDate, endDate, description);
-                                companyPositionList.add(position);
+                                if (description.equals("null")) {
+                                    description = null;
+                                }
+                                companyPositionList.add(new Company.Position(positionTitle, startDate, endDate, description));
                             }
-                            Company company = new Company(link, companyPositionList);
-                            companyList.add(company);
+                            companyList.add(new Company(link, companyPositionList));
                         }
-                        CompanySection companySection = new CompanySection(companyList);
-                        resume.addSection(sectionType, companySection);
+                        resume.addSection(sectionType, new CompanySection(companyList));
                         break;
                 }
             }
