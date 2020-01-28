@@ -5,32 +5,22 @@ public class DeadLockMain {
         DeadLockMain firstLock = new DeadLockMain();
         DeadLockMain secondLock = new DeadLockMain();
 
-        new Thread(() -> {
-            synchronized (firstLock) {
-                System.out.println(Thread.currentThread().getName() + " locked firstLock");
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(Thread.currentThread().getName() + " waiting for here...");
-                synchronized (secondLock) {
-                    System.out.println(Thread.currentThread().getName() + " locked firstLock & secondLock");
-                }
-            }
-        }).start();
+        deadLock(firstLock, secondLock);
+        deadLock(secondLock, firstLock);
+    }
 
+    private static void deadLock(DeadLockMain lock1, DeadLockMain lock2) {
         new Thread(() -> {
-            synchronized (secondLock) {
-                System.out.println(Thread.currentThread().getName() + " locked secondLock");
+            synchronized (lock1) {
+                System.out.println(Thread.currentThread().getName() + " hold this lock");
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 System.out.println(Thread.currentThread().getName() + " waiting for here...");
-                synchronized (firstLock) {
-                    System.out.println(Thread.currentThread().getName() + " locked secondLock & firstLock");
+                synchronized (lock2) {
+                    System.out.println(Thread.currentThread().getName() + " locked firstLock & secondLock");
                 }
             }
         }).start();
