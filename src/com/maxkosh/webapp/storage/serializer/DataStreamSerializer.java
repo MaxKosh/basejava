@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class DataStreamSerializer implements SerializerStrategy {
 
@@ -15,12 +14,12 @@ public class DataStreamSerializer implements SerializerStrategy {
         try (DataOutputStream dos = new DataOutputStream(os)) {
             dos.writeUTF(resume.getUuid());
             dos.writeUTF(resume.getFullName());
-            writeWithException(resume.getContacts().entrySet(), dos, entry -> {
+            write(resume.getContacts().entrySet(), dos, entry -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             });
 
-            writeWithException(resume.getSections().entrySet(), dos, entry -> {
+            write(resume.getSections().entrySet(), dos, entry -> {
                 SectionType sectionType = entry.getKey();
                 Section section = entry.getValue();
                 dos.writeUTF(sectionType.name());
@@ -31,11 +30,11 @@ public class DataStreamSerializer implements SerializerStrategy {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        writeWithException(((ListSection) section).getStringList(), dos, dos::writeUTF);
+                        write(((ListSection) section).getStringList(), dos, dos::writeUTF);
                         break;
                     case EDUCATION:
                     case EXPERIENCE:
-                        writeWithException(((CompanySection) entry.getValue()).getCompanyList(), dos, company -> {
+                        write(((CompanySection) entry.getValue()).getCompanyList(), dos, company -> {
                             Link homePage = company.getHomePage();
                             dos.writeUTF(homePage.getCompanyName());
                             if (homePage.getUrl() == null) {
@@ -43,7 +42,7 @@ public class DataStreamSerializer implements SerializerStrategy {
                             } else {
                                 dos.writeUTF(homePage.getUrl());
                             }
-                            writeWithException(company.getPositions(), dos, position -> {
+                            write(company.getPositions(), dos, position -> {
                                 dos.writeUTF(position.getPositionTitle());
                                 dos.writeUTF(position.getStartDate().toString());
                                 dos.writeUTF(position.getEndDate().toString());
@@ -65,12 +64,9 @@ public class DataStreamSerializer implements SerializerStrategy {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            Section section = null;
-            int contactsSize = dis.readInt();
-            for (int i = 0; i < contactsSize; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
+            simpleRead(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
 
+            Section section = null;
             int sectionsSize = dis.readInt();
             for (int i = 0; i < sectionsSize; i++) {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
@@ -81,12 +77,7 @@ public class DataStreamSerializer implements SerializerStrategy {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        int listSize = dis.readInt();
-                        List<String> stringList = new ArrayList<>();
-                        for (int j = 0; j < listSize; j++) {
-                            stringList.add(dis.readUTF());
-                        }
-                        section = new ListSection(stringList);
+                        section = new ListSection(readList(dis, dis::readUTF));
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
@@ -99,19 +90,10 @@ public class DataStreamSerializer implements SerializerStrategy {
                                 url = null;
                             }
                             Link link = new Link(companyName, url);
-                            int positionListSize = dis.readInt();
-                            List<Company.Position> companyPositionList = new ArrayList<>();
-                            for (int k = 0; k < positionListSize; k++) {
-                                String positionTitle = dis.readUTF();
-                                LocalDate startDate = LocalDate.parse(dis.readUTF());
-                                LocalDate endDate = LocalDate.parse(dis.readUTF());
-                                String description = dis.readUTF();
-                                if (description.equals("")) {
-                                    description = null;
-                                }
-                                companyPositionList.add(new Company.Position(positionTitle, startDate, endDate, description));
-                            }
-                            companyList.add(new Company(link, companyPositionList));
+
+
+                            //List<Company> company = readCompany(dis, readPositionList(dis));
+                            companyList.add(new Company(link, readPositionList(dis)));
                         }
                         section = new CompanySection(companyList);
                         break;
@@ -122,17 +104,67 @@ public class DataStreamSerializer implements SerializerStrategy {
         }
     }
 
-
-    private <T> void writeWithException(Collection<T> collection, DataOutputStream dos, Operator<T> operator) throws IOException {
+    private <T> void write(Collection<T> collection, DataOutputStream dos, SimpleWriter<T> simpleWriter) throws IOException {
         dos.writeInt(collection.size());
         for (T t : collection) {
-            operator.operate(t);
+            simpleWriter.doSimpleWrite(t);
         }
     }
 
     @FunctionalInterface
-    interface Operator<T> {
-        void operate(T t) throws IOException;
+    interface SimpleWriter<T> {
+        void doSimpleWrite(T t) throws IOException;
+    }
+
+    @FunctionalInterface
+    interface SimpleReader {
+        void doSimpleRead() throws IOException;
+    }
+
+    @FunctionalInterface
+    interface ListReader<T> {
+        T doListRead() throws IOException;
+    }
+
+    private List<Company> readCompany(DataInputStream dis, List<Company.Position> compPos) throws IOException {
+        return readList(dis, () -> {
+            String companyName = dis.readUTF();
+            String url = dis.readUTF();
+            if (url.equals("")) {
+                url = null;
+            }
+            Link link = new Link(companyName, url);
+            return new Company(link, compPos);
+        });
+    }
+
+    private List<Company.Position> readPositionList(DataInputStream dis) throws IOException {
+        return readList(dis, () -> {
+            String positionTitle = dis.readUTF();
+            LocalDate startDate = LocalDate.parse(dis.readUTF());
+            LocalDate endDate = LocalDate.parse(dis.readUTF());
+            String description = dis.readUTF();
+            if (description.equals("")) {
+                description = null;
+            }
+            return new Company.Position(positionTitle, startDate, endDate, description);
+        });
+    }
+
+    private void simpleRead(DataInputStream dis, SimpleReader reader) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            reader.doSimpleRead();
+        }
+    }
+
+    private <T> List<T> readList(DataInputStream dis, ListReader<T> reader) throws IOException {
+        int size = dis.readInt();
+        List<T> stringList = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            stringList.add(reader.doListRead());
+        }
+        return stringList;
     }
 }
 
