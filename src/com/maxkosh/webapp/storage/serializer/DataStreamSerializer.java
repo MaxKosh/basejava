@@ -15,47 +15,27 @@ public class DataStreamSerializer implements SerializerStrategy {
         try (DataOutputStream dos = new DataOutputStream(os)) {
             dos.writeUTF(resume.getUuid());
             dos.writeUTF(resume.getFullName());
-
-            Map<ContactType, String> contacts = resume.getContacts();
-            dos.writeInt(contacts.size());
-            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
+            writeWithException(resume.getContacts().entrySet(), dos, entry -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
-            }
+            });
 
-            Map<SectionType, Section> sections = resume.getSections();
-            dos.writeInt(sections.size());
-            for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
+            writeWithException(resume.getSections().entrySet(), dos, entry -> {
                 SectionType sectionType = entry.getKey();
+                Section section = entry.getValue();
                 dos.writeUTF(sectionType.name());
                 switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
-                        TextSection textSection = (TextSection) entry.getValue();
-                        dos.writeUTF(textSection.getText());
+                        dos.writeUTF(((TextSection) section).getText());
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        ListSection listSection = (ListSection) entry.getValue();
-                        List<String> stringList = listSection.getStringList();
-                        dos.writeInt(stringList.size());
-                        for (String string : stringList) {
-                            dos.writeUTF(string);
-                        }
-                        /*writeWithException(stringList, dos, new Operator<T>() {
-
-                            @Override
-                            public void operate() throws IOException {
-                                //dos.writeUTF(stringList.forEach(toString()););
-                            }
-                        });*/
+                        writeWithException(((ListSection) section).getStringList(), dos, dos::writeUTF);
                         break;
                     case EDUCATION:
                     case EXPERIENCE:
-                        CompanySection companySection = (CompanySection) entry.getValue();
-                        List<Company> companyList = companySection.getCompanyList();
-                        dos.writeInt(companyList.size());
-                        for (Company company : companyList) {
+                        writeWithException(((CompanySection) entry.getValue()).getCompanyList(), dos, company -> {
                             Link homePage = company.getHomePage();
                             dos.writeUTF(homePage.getCompanyName());
                             if (homePage.getUrl() == null) {
@@ -63,9 +43,7 @@ public class DataStreamSerializer implements SerializerStrategy {
                             } else {
                                 dos.writeUTF(homePage.getUrl());
                             }
-                            List<Company.Position> companyPosition = company.getPositions();
-                            dos.writeInt(companyPosition.size());
-                            for (Company.Position position : companyPosition) {
+                            writeWithException(company.getPositions(), dos, position -> {
                                 dos.writeUTF(position.getPositionTitle());
                                 dos.writeUTF(position.getStartDate().toString());
                                 dos.writeUTF(position.getEndDate().toString());
@@ -74,11 +52,11 @@ public class DataStreamSerializer implements SerializerStrategy {
                                 } else {
                                     dos.writeUTF(position.getDescription());
                                 }
-                            }
-                        }
+                            });
+                        });
                         break;
                 }
-            }
+            });
         }
     }
 
@@ -147,15 +125,15 @@ public class DataStreamSerializer implements SerializerStrategy {
 
     private <T> void writeWithException(Collection<T> collection, DataOutputStream dos, Operator<T> operator) throws IOException {
         dos.writeInt(collection.size());
-        for(T t : collection) {
-            operator.operate();
+        for (T t : collection) {
+            operator.operate(t);
         }
     }
-}
 
-@FunctionalInterface
-interface Operator <T> {
-    void operate() throws IOException;
+    @FunctionalInterface
+    interface Operator<T> {
+        void operate(T t) throws IOException;
+    }
 }
 
 
