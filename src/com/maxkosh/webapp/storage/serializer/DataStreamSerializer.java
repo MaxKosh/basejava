@@ -65,10 +65,8 @@ public class DataStreamSerializer implements SerializerStrategy {
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
             simpleRead(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
-
-            Section section = null;
-            int sectionsSize = dis.readInt();
-            for (int i = 0; i < sectionsSize; i++) {
+            simpleRead(dis, () -> {
+                Section section = null;
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
                 switch (sectionType) {
                     case PERSONAL:
@@ -81,27 +79,18 @@ public class DataStreamSerializer implements SerializerStrategy {
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
-                        int companyListSize = dis.readInt();
-                        List<Company> companyList = new ArrayList<>();
-                        for (int j = 0; j < companyListSize; j++) {
-                            String companyName = dis.readUTF();
-                            String url = dis.readUTF();
-                            if (url.equals("")) {
-                                url = null;
-                            }
-                            Link link = new Link(companyName, url);
-
-
-                            //List<Company> company = readCompany(dis, readPositionList(dis));
-                            companyList.add(new Company(link, readPositionList(dis)));
-                        }
-                        section = new CompanySection(companyList);
+                        section = new CompanySection(readCompany(dis));
                         break;
                 }
                 resume.addSection(sectionType, section);
-            }
+            });
             return resume;
         }
+    }
+
+    @FunctionalInterface
+    interface SimpleWriter<T> {
+        void doSimpleWrite(T t) throws IOException;
     }
 
     private <T> void write(Collection<T> collection, DataOutputStream dos, SimpleWriter<T> simpleWriter) throws IOException {
@@ -112,43 +101,8 @@ public class DataStreamSerializer implements SerializerStrategy {
     }
 
     @FunctionalInterface
-    interface SimpleWriter<T> {
-        void doSimpleWrite(T t) throws IOException;
-    }
-
-    @FunctionalInterface
     interface SimpleReader {
         void doSimpleRead() throws IOException;
-    }
-
-    @FunctionalInterface
-    interface ListReader<T> {
-        T doListRead() throws IOException;
-    }
-
-    private List<Company> readCompany(DataInputStream dis, List<Company.Position> compPos) throws IOException {
-        return readList(dis, () -> {
-            String companyName = dis.readUTF();
-            String url = dis.readUTF();
-            if (url.equals("")) {
-                url = null;
-            }
-            Link link = new Link(companyName, url);
-            return new Company(link, compPos);
-        });
-    }
-
-    private List<Company.Position> readPositionList(DataInputStream dis) throws IOException {
-        return readList(dis, () -> {
-            String positionTitle = dis.readUTF();
-            LocalDate startDate = LocalDate.parse(dis.readUTF());
-            LocalDate endDate = LocalDate.parse(dis.readUTF());
-            String description = dis.readUTF();
-            if (description.equals("")) {
-                description = null;
-            }
-            return new Company.Position(positionTitle, startDate, endDate, description);
-        });
     }
 
     private void simpleRead(DataInputStream dis, SimpleReader reader) throws IOException {
@@ -158,6 +112,11 @@ public class DataStreamSerializer implements SerializerStrategy {
         }
     }
 
+    @FunctionalInterface
+    interface ListReader<T> {
+        T doListRead() throws IOException;
+    }
+
     private <T> List<T> readList(DataInputStream dis, ListReader<T> reader) throws IOException {
         int size = dis.readInt();
         List<T> stringList = new ArrayList<>();
@@ -165,6 +124,28 @@ public class DataStreamSerializer implements SerializerStrategy {
             stringList.add(reader.doListRead());
         }
         return stringList;
+    }
+
+    private List<Company> readCompany(DataInputStream dis) throws IOException {
+        return readList(dis, () -> {
+            String companyName = dis.readUTF();
+            String url = dis.readUTF();
+            if (url.equals("")) {
+                url = null;
+            }
+            Link link = new Link(companyName, url);
+            return new Company(link, readList(dis, () -> {
+                String positionTitle = dis.readUTF();
+                LocalDate startDate = LocalDate.parse(dis.readUTF());
+                LocalDate endDate = LocalDate.parse(dis.readUTF());
+                String description = dis.readUTF();
+                if (description.equals("")) {
+                    description = null;
+                }
+                return new Company.Position(positionTitle, startDate, endDate, description);
+            })
+            );
+        });
     }
 }
 
