@@ -1,15 +1,13 @@
 package com.maxkosh.webapp;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class StreamApiMain {
     public static void main(String[] args) {
         //Java 8 Streams I:
-        int[] numbers = {9, 8, 7, 4, 2, 2};
+        int[] numbers = {3, 7, 4, 4, 6, 9, 3};
         System.out.println(minValue(numbers));
 
         //Java 8 Streams II:
@@ -21,15 +19,15 @@ public class StreamApiMain {
     }
 
     static int minValue(int[] values) {
-        final int[] count = {((int) IntStream.of(values).distinct().count() - 1)};
-        return IntStream.of(values).distinct().sorted()
-                .map(i -> i * (int) Math.pow(10, (count[0]--))).sum();
+        return IntStream.of(values).sorted().distinct().reduce(0, (x, y) -> (x * 10) + y);
     }
 
     static List<Integer> oddOrEven(List<Integer> integers) {
+        Map<Boolean, List<Integer>> oddOrEven =
+                integers.stream().collect(Collectors.partitioningBy(s -> s % 2 == 0));
         if (integers.stream().mapToInt(Integer::intValue).sum() % 2 == 0) {
-            return integers.stream().filter(x -> x % 2 == 0).collect(Collectors.toList());
+            return oddOrEven.get(true);
         }
-        return integers.stream().filter(x -> x % 2 != 0).collect(Collectors.toList());
+        return oddOrEven.get(false);
     }
 }
