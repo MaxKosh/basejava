@@ -25,9 +25,6 @@ public class StreamApiMain {
     static List<Integer> oddOrEven(List<Integer> integers) {
         Map<Boolean, List<Integer>> oddOrEven =
                 integers.stream().collect(Collectors.partitioningBy(s -> s % 2 == 0));
-        if (integers.stream().mapToInt(Integer::intValue).sum() % 2 == 0) {
-            return oddOrEven.get(true);
-        }
-        return oddOrEven.get(false);
+        return oddOrEven.get(integers.stream().mapToInt(Integer::intValue).sum() % 2 == 0);
     }
 }

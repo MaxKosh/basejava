@@ -1,5 +1,6 @@
 package com.maxkosh.webapp.storage;
 
+import com.maxkosh.webapp.Config;
 import com.maxkosh.webapp.exception.ExistStorageException;
 import com.maxkosh.webapp.exception.NotExistStorageException;
 import com.maxkosh.webapp.model.Resume;
@@ -13,7 +14,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("/Users/max/basejava/storage");
+    protected static final File STORAGE_DIR = Config.getInstance().getStorageDir();//new File("C:/Users/1/IdeaProjects/basejava/storage");
     protected Storage storage;
 
     private static final Resume RESUME_1;
