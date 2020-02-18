@@ -3,7 +3,6 @@ package com.maxkosh.webapp.storage;
 import com.maxkosh.webapp.exception.ExistStorageException;
 import com.maxkosh.webapp.exception.NotExistStorageException;
 import com.maxkosh.webapp.model.Resume;
-import com.maxkosh.webapp.sql.ConnectionFactory;
 import com.maxkosh.webapp.sql.SqlHelper;
 
 import java.sql.*;
@@ -11,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage {
-    public final ConnectionFactory connectionFactory;
+
     public final SqlHelper sqlHelper;
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
-        sqlHelper = new SqlHelper(connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
+        sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
     }
 
     @Override
@@ -31,9 +30,7 @@ public class SqlStorage implements Storage {
         sqlHelper.execute("INSERT INTO resume (uuid, full_name) VALUES (?, ?)", ps -> {
             ps.setString(1, resume.getUuid());
             ps.setString(2, resume.getFullName());
-            if (ps.executeUpdate() == 0) {
-                throw new ExistStorageException(resume.getUuid());
-            }
+            ps.execute();
             return null;
         });
     }
@@ -89,8 +86,7 @@ public class SqlStorage implements Storage {
     public int size() {
         return sqlHelper.execute("SELECT COUNT(*) AS size FROM resume", ps -> {
             ResultSet rs = ps.executeQuery();
-            rs.next();
-            return rs.getInt("size");
+            return rs.next() ? rs.getInt("size") : 0;
         });
     }
 }
