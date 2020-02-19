@@ -1,6 +1,5 @@
 package com.maxkosh.webapp.sql;
 
-import com.maxkosh.webapp.exception.ExistStorageException;
 import com.maxkosh.webapp.exception.StorageException;
 
 import java.sql.Connection;
@@ -19,26 +18,20 @@ public class SqlHelper {
              PreparedStatement ps = connection.prepareStatement(sqlRequest)) {
             return sqlExecutor.doExecute(ps);
         } catch (SQLException e) {
-            if (e.getSQLState().equals("23505")) {
-                throw new ExistStorageException(e.getMessage());
-            }
-            throw new StorageException(e);
+            throw ExceptionUtil.convertException(e);
         }
     }
 
-    public <T> T transactionalExecute(SqlTransaction<T> executor) {
+    public <T> T transactionalExecute(SqlTransaction<T> sqlExecutor) {
         try (Connection connection = connectionFactory.getConnection()) {
             try {
                 connection.setAutoCommit(false);
-                T res = executor.execute(connection);
+                T result = sqlExecutor.doExecute(connection);
                 connection.commit();
-                return res;
+                return result;
             } catch (SQLException e) {
                 connection.rollback();
-                if (e.getSQLState().equals("23505")) {
-                    throw new ExistStorageException(e.getMessage());
-                }
-                throw new StorageException(e);
+                throw ExceptionUtil.convertException(e);
             }
         } catch (SQLException e) {
             throw new StorageException(e);
