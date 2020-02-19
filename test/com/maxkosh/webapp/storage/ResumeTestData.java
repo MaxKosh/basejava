@@ -11,10 +11,10 @@ public class ResumeTestData {
     static final Resume resume_4;
 
     static {
-        resume_1 = new Resume("uuid1","Name_1 Surname_1");
-        resume_2 = new Resume("uuid2","Name_2 Surname_2");
-        resume_3 = new Resume("uuid3","Name_3 Surname_3");
-        resume_4 = new Resume("uuid4","Name_4 Surname_4");
+        resume_1 = new Resume("Name_1 Surname_1");
+        resume_2 = new Resume("Name_2 Surname_2");
+        resume_3 = new Resume("Name_3 Surname_3");
+        resume_4 = new Resume("Name_4 Surname_4");
 
 //        resume_1.addContact(ContactType.E_MAIL, "name1@yandex.ru");
 //        resume_1.addContact(ContactType.PHONE_NUMBER, "+7(999)999-9999");

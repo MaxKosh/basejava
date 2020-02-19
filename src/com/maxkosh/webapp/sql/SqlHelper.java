@@ -2,7 +2,6 @@ package com.maxkosh.webapp.sql;
 
 import com.maxkosh.webapp.exception.ExistStorageException;
 import com.maxkosh.webapp.exception.StorageException;
-import org.postgresql.util.PSQLException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,6 +23,26 @@ public class SqlHelper {
                 throw new ExistStorageException(e.getMessage());
             }
             throw new StorageException(e);
+        }
+    }
+
+    public <T> T transactionalExecute(SqlTransaction<T> executor) {
+        try (Connection connection = connectionFactory.getConnection()) {
+            try {
+                connection.setAutoCommit(false);
+                T res = executor.execute(connection);
+                connection.commit();
+                return res;
+            } catch (SQLException e) {
+                connection.rollback();
+                if (e.getSQLState().equals("23505")) {
+                    throw new ExistStorageException(e.getMessage());
+                }
+                throw new StorageException(e);
+            }
+        } catch (SQLException e) {
+            throw new StorageException(e);
+
         }
     }
 }
