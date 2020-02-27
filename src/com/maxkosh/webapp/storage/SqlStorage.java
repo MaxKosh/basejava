@@ -3,10 +3,8 @@ package com.maxkosh.webapp.storage;
 import com.maxkosh.webapp.exception.NotExistStorageException;
 import com.maxkosh.webapp.model.*;
 import com.maxkosh.webapp.sql.SqlHelper;
-
 import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class SqlStorage implements Storage {
 
@@ -94,20 +92,29 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.execute("SELECT * FROM resume r " +
-                "LEFT JOIN contact c " +
-                "ON r.uuid = c.resume_uuid " +
-                "LEFT JOIN section s " +
-                "ON r.uuid = s.resume_uuid " +
-                "ORDER BY full_name, uuid", ps -> {
-            ResultSet rs = ps.executeQuery();
-            Map<String, Resume> resumes = new LinkedHashMap<>();
-            while (rs.next()) {
-                String uuid = rs.getString("uuid");
-                String name = rs.getString("full_name");
-                Resume resume = resumes.computeIfAbsent(uuid, r -> new Resume(uuid, name));
-                addContacts(rs, resume);
-                addSections(rs, resume);
+        Map<String, Resume> resumes = new LinkedHashMap<>();
+        return sqlHelper.transactionalExecute(connection -> {
+            try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM resume r ORDER BY full_name, uuid")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String uuid = rs.getString("uuid");
+                    String fullName = rs.getString("full_name");
+                    resumes.put(uuid, new Resume(uuid, fullName));
+                }
+            }
+            try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM contact")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String uuid = rs.getString("resume_uuid");
+                    addContacts(rs, resumes.get(uuid));
+                }
+            }
+            try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM section")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String uuid = rs.getString("resume_uuid");
+                    addSections(rs, resumes.get(uuid));
+                }
             }
             return new ArrayList<>(resumes.values());
         });
@@ -140,11 +147,15 @@ public class SqlStorage implements Storage {
             for (Map.Entry<SectionType, Section> entry : resume.getSections().entrySet()) {
                 ps.setString(1, entry.getKey().name());
                 Section section = entry.getValue();
-                if (section instanceof TextSection) {
-                    ps.setString(2, ((TextSection) section).getText());
-                } else {
-                    String data = String.join("\n", ((ListSection) section).getStringList());
-                    ps.setString(2, data);
+                String className = section.getClass().getSimpleName();
+                switch (className) {
+                    case "TextSection":
+                        ps.setString(2, ((TextSection) section).getText());
+                        break;
+                    case "ListSection":
+                        String data = String.join("\n", ((ListSection) section).getStringList());
+                        ps.setString(2, data);
+                        break;
                 }
                 ps.setString(3, resume.getUuid());
                 ps.addBatch();

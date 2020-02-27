@@ -3,12 +3,11 @@ package com.maxkosh.webapp;
 import com.maxkosh.webapp.storage.SqlStorage;
 import com.maxkosh.webapp.storage.Storage;
 
-
 import java.io.*;
 import java.util.Properties;
 
 public class Config {
-    private static final File PROPS = new File("config/resumes.properties");
+    private static final File PROPS = new File("C:/Users/1/IdeaProjects/basejava2/config/resumes.properties");
     private static final Config INSTANCE = new Config();
     private Storage storage;
     private File storageDir;

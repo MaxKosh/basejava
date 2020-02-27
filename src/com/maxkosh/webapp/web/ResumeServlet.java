@@ -1,6 +1,6 @@
 package com.maxkosh.webapp.web;
 
-import com.maxkosh.webapp.storage.SqlStorage;
+import com.maxkosh.webapp.Config;
 import com.maxkosh.webapp.storage.Storage;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,7 +12,7 @@ public class ResumeServlet extends javax.servlet.http.HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        storage = new SqlStorage("jdbc:postgresql://localhost:5432/resumes", "postgres", "postgres");
+        storage = Config.getInstance().getStorage();
     }
 
     @Override
