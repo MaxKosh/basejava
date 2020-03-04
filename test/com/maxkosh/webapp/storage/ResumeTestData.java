@@ -5,7 +5,7 @@ import com.maxkosh.webapp.model.*;
 import java.time.Month;
 
 public class ResumeTestData {
-    static final Resume resume_1;
+    public static final Resume resume_1;
     static final Resume resume_2;
     static final Resume resume_3;
     static final Resume resume_4;
@@ -27,13 +27,13 @@ public class ResumeTestData {
         resume_1.addSection(SectionType.PERSONAL, new TextSection("Personal data1"));
         resume_1.addSection(SectionType.ACHIEVEMENT, new ListSection("Achievement11", "Achievement12", "Achievement13"));
         resume_1.addSection(SectionType.QUALIFICATIONS, new ListSection("Qualification11", "Qualification12", "Qualification13"));
-//        resume_1.addSection(SectionType.EXPERIENCE, new CompanySection(new Company("Name", null,
-//                new Company.Position(2000, Month.APRIL, 2001, Month.AUGUST, "Position", null),
-//                new Company.Position(2001, Month.NOVEMBER, "Position", "Description"))));
-//        resume_1.addSection(SectionType.EDUCATION, new CompanySection(new Company("Name", "URL",
-//                new Company.Position(2005, Month.APRIL, 2008, Month.AUGUST, "Position", "Description"),
-//                new Company.Position(2008, Month.NOVEMBER, 2012, Month.DECEMBER, "Position", "Description"))));
-//
+        resume_1.addSection(SectionType.EXPERIENCE, new CompanySection(new Company("Name", null,
+                new Company.Position(2000, Month.APRIL, 2001, Month.AUGUST, "Position", null),
+                new Company.Position(2001, Month.NOVEMBER, "Position", "Description"))));
+        resume_1.addSection(SectionType.EDUCATION, new CompanySection(new Company("Name", "URL",
+                new Company.Position(2005, Month.APRIL, 2008, Month.AUGUST, "Position", "Description"),
+                new Company.Position(2008, Month.NOVEMBER, 2012, Month.DECEMBER, "Position", "Description"))));
+
         resume_2.addContact(ContactType.E_MAIL, "name2@yandex.ru");
         resume_2.addContact(ContactType.PHONE_NUMBER, "+7(999)999-9999");
         resume_2.addContact(ContactType.SKYPE, "name2.surname2");
@@ -42,19 +42,19 @@ public class ResumeTestData {
         resume_2.addSection(SectionType.PERSONAL, new TextSection("Personal data2"));
         resume_2.addSection(SectionType.ACHIEVEMENT, new ListSection("Achievement21", "Achievement22", "Achievement23"));
         resume_2.addSection(SectionType.QUALIFICATIONS, new ListSection("Qualification1", "Qualification2", "Qualification3"));
-//        resume_2.addSection(SectionType.EXPERIENCE, new CompanySection(new Company("Name", "URL",
-//                new Company.Position(2000, Month.APRIL, 2001, Month.AUGUST, "Position", "Description"))));
-//        resume_2.addSection(SectionType.EDUCATION, new CompanySection(new Company("Name", "URL",
-//                new Company.Position(2005, Month.APRIL, 2008, Month.AUGUST, "Position", "Description"))));
-//
+        resume_2.addSection(SectionType.EXPERIENCE, new CompanySection(new Company("Name", "URL",
+                new Company.Position(2000, Month.APRIL, 2001, Month.AUGUST, "Position", "Description"))));
+        resume_2.addSection(SectionType.EDUCATION, new CompanySection(new Company("Name", "URL",
+                new Company.Position(2005, Month.APRIL, 2008, Month.AUGUST, "Position", "Description"))));
+
         resume_3.addContact(ContactType.E_MAIL, "name3@yandex.ru");
         resume_3.addContact(ContactType.PHONE_NUMBER, "+7(999)999-9999");
         resume_3.addSection(SectionType.OBJECTIVE, new TextSection("Objective3"));
         resume_3.addSection(SectionType.ACHIEVEMENT, new ListSection("Achievement31", "Achievement32", "Achievement33"));
         resume_3.addSection(SectionType.QUALIFICATIONS, new ListSection("Qualification31", "Qualification32", "Qualification33"));
-//        resume_3.addSection(SectionType.EXPERIENCE, new CompanySection(new Company("Name", "URL",
-//                new Company.Position(2000, Month.APRIL, 2001, Month.AUGUST, "Position", "Description"))));
-//
+        resume_3.addSection(SectionType.EXPERIENCE, new CompanySection(new Company("Name", "URL",
+                new Company.Position(2000, Month.APRIL, 2001, Month.AUGUST, "Position", "Description"))));
+
         resume_4.addContact(ContactType.E_MAIL, "name4@yandex.ru");
         resume_4.addContact(ContactType.PHONE_NUMBER, "+7(999)999-9999");
         resume_4.addContact(ContactType.SKYPE, "name4.surname4");
@@ -64,8 +64,8 @@ public class ResumeTestData {
         resume_4.addSection(SectionType.PERSONAL, new TextSection("Personal data4"));
         resume_4.addSection(SectionType.ACHIEVEMENT, new ListSection("Achievement41", "Achievement42", "Achievement43"));
         resume_4.addSection(SectionType.QUALIFICATIONS, new ListSection("Qualification41", "Qualification42", "Qualification43"));
-//        resume_4.addSection(SectionType.EDUCATION, new CompanySection(new Company("Name", "URL",
-//                new Company.Position(2005, Month.APRIL, 2008, Month.AUGUST, "Position", "Description"),
-//                new Company.Position(2008, Month.NOVEMBER, 2012, Month.DECEMBER, "Position", "Description"))));
+        resume_4.addSection(SectionType.EDUCATION, new CompanySection(new Company("Name", "URL",
+                new Company.Position(2005, Month.APRIL, 2008, Month.AUGUST, "Position", "Description"),
+                new Company.Position(2008, Month.NOVEMBER, 2012, Month.DECEMBER, "Position", "Description"))));
     }
 }
